@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "pontocao",
+    "slug": "pontocao",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "pontocao",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
