@@ -4,6 +4,11 @@ module.exports = {
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
+      colors: {
+        brand: {
+          500: '#FF407D'
+        }
+      },
       fontFamily: {
         'sans-regular': ['Inter_400Regular'],
         'sans-medium': ['Inter_500Medium'],
