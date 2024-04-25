@@ -58,7 +58,7 @@
     "typescript": "^5.1.3"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
+    "*.{ts,tsx}": [
       "eslint --fix .",
       "prettier --write ."
     ]
