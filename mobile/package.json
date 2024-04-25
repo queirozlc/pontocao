@@ -10,7 +10,8 @@
     "test": "jest --watchAll",
     "lint": "eslint . --fix",
     "format": "prettier --write .",
-    "prepare": "cd .. && husky mobile/.husky"
+    "prepare": "cd .. && husky mobile/.husky",
+    "lint-staged": "lint-staged"
   },
   "jest": {
     "preset": "jest-expo"
