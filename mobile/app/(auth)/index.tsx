@@ -1,17 +1,12 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import {
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-  useColorScheme
-} from 'react-native'
+import { Image, Text, View, useColorScheme } from 'react-native'
 
 import AppleDarkIcon from '@/assets/images/Apple_dark.svg'
 import AppleLightIcon from '@/assets/images/Apple_light.svg'
 import FacebookIcon from '@/assets/images/facebook.svg'
 import GoogleIcon from '@/assets/images/google.svg'
 import { Container } from '@/components/ui/base'
+import { Button } from '@/components/ui/button'
 
 export default function SignUpScreen() {
   const colorScheme = useColorScheme()
@@ -39,10 +34,7 @@ export default function SignUpScreen() {
       </View>
 
       <View className="w-full gap-6 ">
-        <TouchableOpacity
-          className="h-16 items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-600"
-          activeOpacity={0.75}
-        >
+        <Button variant="outlined">
           <GoogleIcon
             width={28}
             height={28}
@@ -54,12 +46,9 @@ export default function SignUpScreen() {
           <Text className="text-center font-title-bold text-xl text-zinc-900 dark:text-zinc-200">
             Continuar com Google
           </Text>
-        </TouchableOpacity>
+        </Button>
 
-        <TouchableOpacity
-          className="h-16 items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-600"
-          activeOpacity={0.75}
-        >
+        <Button variant="outlined">
           <FacebookIcon
             width={28}
             height={28}
@@ -71,12 +60,9 @@ export default function SignUpScreen() {
           <Text className="text-center font-title-bold text-xl text-zinc-900 dark:text-zinc-200">
             Continuar com Facebook
           </Text>
-        </TouchableOpacity>
+        </Button>
 
-        <TouchableOpacity
-          className="h-16 items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-600"
-          activeOpacity={0.75}
-        >
+        <Button variant="outlined">
           <AppleIcon
             width={28}
             height={28}
@@ -88,12 +74,9 @@ export default function SignUpScreen() {
           <Text className="text-center font-title-bold text-xl text-zinc-900 dark:text-zinc-200">
             Continuar com Apple
           </Text>
-        </TouchableOpacity>
+        </Button>
 
-        <TouchableOpacity
-          className="h-16 flex-row items-center justify-center rounded-full bg-brand-500"
-          activeOpacity={0.75}
-        >
+        <Button>
           <MaterialCommunityIcons
             name="email-outline"
             size={32}
@@ -106,16 +89,13 @@ export default function SignUpScreen() {
           <Text className="text-center font-title-bold text-xl text-white">
             Entrar com Email
           </Text>
-        </TouchableOpacity>
+        </Button>
 
-        <TouchableOpacity
-          className="h-16 flex-row items-center justify-center rounded-full bg-brand-500"
-          activeOpacity={0.75}
-        >
+        <Button>
           <Text className="text-center font-title-bold text-xl text-white">
             Criar uma conta
           </Text>
-        </TouchableOpacity>
+        </Button>
       </View>
     </Container>
   )
