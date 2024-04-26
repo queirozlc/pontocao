@@ -55,8 +55,6 @@ export default function SignIn() {
           <Label>Qual seu email ?</Label>
           <Input
             placeholder="Digite seu email aqui"
-            cursorColor={Constants.BRAND_COLOR}
-            selectionColor={Constants.BRAND_COLOR}
             autoCapitalize="none"
             keyboardType="email-address"
           />
@@ -79,8 +77,6 @@ export default function SignIn() {
             <Input
               placeholder="Digite a senha"
               className="pr-16"
-              cursorColor={Constants.BRAND_COLOR}
-              selectionColor={Constants.BRAND_COLOR}
               autoCapitalize="none"
               secureTextEntry={!passwordVisible}
             />

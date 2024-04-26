@@ -2,6 +2,7 @@ import { VariantProps, cva } from 'class-variance-authority'
 import { ComponentPropsWithRef, forwardRef } from 'react'
 import { TextInput } from 'react-native'
 
+import { Constants } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 
 type InputBase = ComponentPropsWithRef<typeof TextInput>
@@ -34,6 +35,8 @@ export const Input = forwardRef<TextInput, InputProps>(
       <TextInput
         ref={ref}
         className={cn(inputVariants({ variant, size, className }))}
+        selectionColor={Constants.BRAND_COLOR}
+        cursorColor={Constants.BRAND_COLOR}
         {...props}
       >
         {props.children}
