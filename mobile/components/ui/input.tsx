@@ -11,7 +11,9 @@ const inputVariants = cva(
   {
     variants: {
       variant: {
-        outlined: 'rounded-xl border border-zinc-200 dark:border-zinc-600'
+        outlined: 'rounded-xl border border-zinc-200 dark:border-zinc-600',
+        solid:
+          'rounded-xl border-none bg-zinc-100 dark:border-none dark:bg-zinc-700'
       },
       size: {
         full: 'h-16 w-full'
