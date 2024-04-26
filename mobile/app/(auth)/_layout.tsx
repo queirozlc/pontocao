@@ -23,6 +23,13 @@ export default function AuthLayout() {
           headerShown: true
         }}
       />
+      <Stack.Screen
+        name="profile-info"
+        options={{
+          header: () => <StepHeader step={3} />,
+          headerShown: true
+        }}
+      />
     </Stack>
   )
 }
