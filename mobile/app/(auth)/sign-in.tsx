@@ -1,5 +1,5 @@
 import { Feather } from '@expo/vector-icons'
-import { useNavigation } from 'expo-router'
+import { useNavigation, Link } from 'expo-router'
 import { useState } from 'react'
 import {
   Text,
@@ -100,9 +100,11 @@ export default function SignIn() {
           </Text>
         </Text>
 
-        <Text className="text-center font-sans-medium text-brand-500">
-          Esqueceu a senha ?
-        </Text>
+        <Link href="/forgot-password" asChild>
+          <Text className="text-center font-sans-medium text-brand-500">
+            Esqueceu a senha ?
+          </Text>
+        </Link>
       </KeyboardAvoidingView>
 
       <View className="flex-row items-center justify-center">
