@@ -1,4 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { Link } from 'expo-router'
 import { Image, Text, View, useColorScheme } from 'react-native'
 
 import AppleDarkIcon from '@/assets/images/Apple_dark.svg'
@@ -91,11 +92,13 @@ export default function SignUpScreen() {
           </Text>
         </Button>
 
-        <Button>
-          <Text className="text-center font-title-bold text-xl text-white">
-            Criar uma conta
-          </Text>
-        </Button>
+        <Link href="/(auth)/sign-up" asChild>
+          <Button>
+            <Text className="text-center font-title-bold text-xl text-white">
+              Criar uma conta
+            </Text>
+          </Button>
+        </Link>
       </View>
     </Container>
   )
