@@ -14,7 +14,7 @@ type MockData = {
   icon: string
 }
 
-const data: MockData[] = [
+export const data: MockData[] = [
   {
     id: 1,
     name: 'Cachorros',
