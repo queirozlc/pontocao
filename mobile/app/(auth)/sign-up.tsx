@@ -17,7 +17,7 @@ import { Container } from '@/components/ui/base'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Contants } from '@/lib/constants'
+import { Constants } from '@/lib/constants'
 
 export default function SignUp() {
   const [passwordVisible, setPasswordVisible] = useState(false)
@@ -55,8 +55,8 @@ export default function SignUp() {
           <Label>Qual será seu email ?</Label>
           <Input
             placeholder="Digite seu email aqui"
-            cursorColor={Contants.BRAND_COLOR}
-            selectionColor={Contants.BRAND_COLOR}
+            cursorColor={Constants.BRAND_COLOR}
+            selectionColor={Constants.BRAND_COLOR}
             autoCapitalize="none"
             keyboardType="email-address"
           />
@@ -79,8 +79,8 @@ export default function SignUp() {
             <Input
               placeholder="Digite a senha"
               className="pr-16"
-              cursorColor={Contants.BRAND_COLOR}
-              selectionColor={Contants.BRAND_COLOR}
+              cursorColor={Constants.BRAND_COLOR}
+              selectionColor={Constants.BRAND_COLOR}
               autoCapitalize="none"
               secureTextEntry={!passwordVisible}
             />
