@@ -6,14 +6,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Row } from './ui/base'
 
 type Props = {
-  step: 1 | 2 | 3 | 4
+  step: 1 | 2 | 3
 }
 
 export function StepHeader({ step }: Props) {
   const { top } = useSafeAreaInsets()
   const { goBack } = useNavigation()
   const theme = useColorScheme()
-  const barProgress = (step * 100) / 4
+  const barProgress = (step * 100) / 3
 
   return (
     <Row
@@ -37,7 +37,7 @@ export function StepHeader({ step }: Props) {
       </View>
 
       <Text className="font-sans-semibold text-xl text-zinc-900 dark:text-zinc-300">
-        {step}/4
+        {step}/3
       </Text>
     </Row>
   )
