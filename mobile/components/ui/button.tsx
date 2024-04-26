@@ -9,7 +9,7 @@ type ButtonBase = ComponentPropsWithRef<typeof TouchableOpacity>
 const buttonVariant = cva('flex-row items-center justify-center', {
   variants: {
     variant: {
-      primary: 'rounded-full bg-brand-500',
+      primary: 'rounded-full bg-brand-500 disabled:opacity-40',
       outlined: 'rounded-full border border-zinc-200 dark:border-zinc-600'
     },
     size: {
