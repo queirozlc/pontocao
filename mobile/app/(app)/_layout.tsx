@@ -21,7 +21,7 @@ export default function AppLayout() {
       }}
     >
       <Tabs.Screen
-        name="(home)"
+        name="home"
         options={{
           headerShown: false,
           tabBarLabel: 'Início',

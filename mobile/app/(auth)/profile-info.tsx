@@ -76,7 +76,7 @@ export default function ProfileInfo() {
           paddingBottom: bottom + 32
         }}
       >
-        <Link href="/(app)/(home)" asChild replace>
+        <Link href="/(app)/home" asChild replace>
           <Button className="h-14">
             <Text className="text-center font-sans-bold text-xl text-white">
               Ir para o app
