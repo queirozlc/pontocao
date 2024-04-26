@@ -26,7 +26,7 @@ export default function SignUp() {
   const AppleIcon = theme === 'dark' ? AppleDarkIcon : AppleLightIcon
 
   return (
-    <Container className="gap-10 px-6">
+    <Container className="gap-10">
       <View className="gap-5 pt-4">
         <TouchableOpacity onPress={goBack} activeOpacity={0.8}>
           <Feather

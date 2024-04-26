@@ -14,7 +14,7 @@ export const Container = forwardRef<View, ViewProps>((props, ref) => {
       {...props}
       ref={ref}
       style={[{ paddingTop: top }, props.style]}
-      className={cn('flex-1 bg-white dark:bg-zinc-800', props.className)}
+      className={cn('flex-1 bg-white px-6 dark:bg-zinc-800', props.className)}
     >
       {props.children}
     </View>

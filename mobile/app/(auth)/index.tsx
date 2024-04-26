@@ -15,7 +15,7 @@ export default function SignUpScreen() {
   const AppleIcon = colorScheme === 'dark' ? AppleDarkIcon : AppleLightIcon
 
   return (
-    <Container className="gap-16 px-6">
+    <Container className="gap-16">
       <View className="self-center pt-12">
         <Image
           source={require('@/assets/images/logobg.png')}
