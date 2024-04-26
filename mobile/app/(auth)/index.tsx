@@ -77,20 +77,22 @@ export default function SignUpScreen() {
           </Text>
         </Button>
 
-        <Button>
-          <MaterialCommunityIcons
-            name="email-outline"
-            size={32}
-            color="white"
-            style={{
-              position: 'absolute',
-              left: 16
-            }}
-          />
-          <Text className="text-center font-title-bold text-xl text-white">
-            Entrar com Email
-          </Text>
-        </Button>
+        <Link href="/sign-in" asChild>
+          <Button>
+            <MaterialCommunityIcons
+              name="email-outline"
+              size={32}
+              color="white"
+              style={{
+                position: 'absolute',
+                left: 16
+              }}
+            />
+            <Text className="text-center font-title-bold text-xl text-white">
+              Entrar com Email
+            </Text>
+          </Button>
+        </Link>
 
         <Link href="/(auth)/sign-up" asChild>
           <Button>

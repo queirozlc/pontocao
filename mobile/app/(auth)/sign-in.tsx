@@ -1,12 +1,12 @@
 import { Feather } from '@expo/vector-icons'
-import { Link, useNavigation } from 'expo-router'
+import { useNavigation } from 'expo-router'
 import { useState } from 'react'
 import {
-  KeyboardAvoidingView,
-  Platform,
   Text,
   TouchableOpacity,
   View,
+  Platform,
+  KeyboardAvoidingView,
   useColorScheme
 } from 'react-native'
 
@@ -19,7 +19,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Constants } from '@/lib/constants'
 
-export default function SignUp() {
+export default function SignIn() {
   const [passwordVisible, setPasswordVisible] = useState(false)
   const theme = useColorScheme()
   const { goBack } = useNavigation()
@@ -38,11 +38,11 @@ export default function SignUp() {
 
         <View className="justify-center gap-4">
           <Text className="font-sans-bold text-3xl text-zinc-900 dark:text-zinc-200">
-            Buscando um novo amigo pra família ? 🐾
+            Bem-vindo de volta! 👋
           </Text>
 
           <Text className="font-sans-medium text-lg text-zinc-600 dark:text-zinc-400">
-            Preencha os campos abaixo, é rapidinho! 🚀
+            Faça login para continuar! 🚀
           </Text>
         </View>
       </View>
@@ -52,7 +52,7 @@ export default function SignUp() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <View className="gap-2">
-          <Label>Qual será seu email ?</Label>
+          <Label>Qual seu email ?</Label>
           <Input
             placeholder="Digite seu email aqui"
             cursorColor={Constants.BRAND_COLOR}
@@ -63,7 +63,7 @@ export default function SignUp() {
         </View>
 
         <View className="gap-2">
-          <Label>Escolha uma senha</Label>
+          <Label>Qual sua senha ?</Label>
           <View className="relative flex-row items-center">
             <TouchableOpacity
               activeOpacity={0.8}
@@ -89,15 +89,19 @@ export default function SignUp() {
 
         <Button className="h-14">
           <Text className="text-center font-title-bold text-xl text-white">
-            Continuar
+            Entrar
           </Text>
         </Button>
 
-        <Text className="font-sans-medium text-zinc-600 dark:text-zinc-400">
-          Já tem uma conta ?{' '}
-          <Link href="/(auth)/sign-in" asChild>
-            <Text className="text-brand-500">Faça login</Text>
-          </Link>
+        <Text className="text-center font-sans-medium text-zinc-600 dark:text-zinc-400">
+          Ainda não tem uma conta?{' '}
+          <Text className="text-brand-500" onPress={() => goBack()}>
+            Crie uma conta
+          </Text>
+        </Text>
+
+        <Text className="text-center font-sans-medium text-brand-500">
+          Esqueceu a senha ?
         </Text>
       </KeyboardAvoidingView>
 
@@ -118,7 +122,7 @@ export default function SignUp() {
             }}
           />
           <Text className="text-center font-title-bold text-xl text-zinc-900 dark:text-zinc-200">
-            Continuar com Google
+            Entrar com Google
           </Text>
         </Button>
 
@@ -132,7 +136,7 @@ export default function SignUp() {
             }}
           />
           <Text className="text-center font-title-bold text-xl text-zinc-900 dark:text-zinc-200">
-            Continuar com Apple
+            Entrar com Apple
           </Text>
         </Button>
       </View>
