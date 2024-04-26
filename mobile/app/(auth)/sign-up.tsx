@@ -87,11 +87,13 @@ export default function SignUp() {
           </View>
         </View>
 
-        <Button className="h-14">
-          <Text className="text-center font-title-bold text-xl text-white">
-            Continuar
-          </Text>
-        </Button>
+        <Link href="/(auth)/choose-profile" asChild replace>
+          <Button className="h-14">
+            <Text className="text-center font-title-bold text-xl text-white">
+              Continuar
+            </Text>
+          </Button>
+        </Link>
 
         <Text className="font-sans-medium text-zinc-600 dark:text-zinc-400">
           Já tem uma conta ?{' '}
