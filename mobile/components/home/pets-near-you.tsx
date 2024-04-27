@@ -1,6 +1,6 @@
 import { Feather } from '@expo/vector-icons'
 import { FlashList } from '@shopify/flash-list'
-import { FlatList, Image, Text, View } from 'react-native'
+import { Image, Text, View } from 'react-native'
 
 import { Row } from '../ui/base'
 
