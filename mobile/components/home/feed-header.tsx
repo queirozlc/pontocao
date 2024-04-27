@@ -20,7 +20,7 @@ export function FeedHeader() {
       </View>
 
       <Row className="items-center gap-2">
-        <Link href="/(app)/(home)/search" asChild>
+        <Link href="/(app)/home/search" asChild>
           <TouchableOpacity
             activeOpacity={0.8}
             className="rounded-full border border-gray-200 p-2 dark:border-zinc-600"
