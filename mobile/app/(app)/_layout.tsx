@@ -1,11 +1,13 @@
 import { Feather } from '@expo/vector-icons'
 import { Tabs } from 'expo-router'
 import { useColorScheme } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import colors from 'tailwindcss/colors'
 
 import { Constants } from '@/lib/constants'
 
 export default function AppLayout() {
+  const { bottom } = useSafeAreaInsets()
   const theme = useColorScheme()
 
   return (
@@ -17,7 +19,10 @@ export default function AppLayout() {
         },
         tabBarActiveTintColor: Constants.BRAND_COLOR,
         tabBarInactiveTintColor:
-          theme === 'dark' ? colors.zinc[600] : colors.zinc[400]
+          theme === 'dark' ? colors.zinc[600] : colors.zinc[400],
+        tabBarStyle: {
+          height: 56 + bottom
+        }
       }}
     >
       <Tabs.Screen
