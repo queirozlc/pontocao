@@ -19,20 +19,7 @@ export default function Search() {
           color={colors.zinc['400']}
           className="absolute left-4"
         />
-        <Input
-          variant="outlined"
-          className="rounded-full pl-14"
-          style={{
-            elevation: 2,
-            shadowColor: colors.zinc['400'],
-            shadowOffset: {
-              width: 0,
-              height: 2
-            },
-            shadowOpacity: 0.25,
-            shadowRadius: 3.84
-          }}
-        />
+        <Input variant="outlined" className="rounded-full pl-14" />
       </Row>
 
       <View className="gap-4">
