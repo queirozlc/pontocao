@@ -45,7 +45,8 @@ defmodule PontoCao.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.2"},
       {:ex_phone_number, "~> 0.4.4"},
-      {:ecto_commons, "~> 0.3.4"}
+      {:ecto_commons, "~> 0.3.4"},
+      {:burnex, "~> 3.1.0"}
     ]
   end
 
