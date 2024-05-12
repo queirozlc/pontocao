@@ -23,7 +23,8 @@ defmodule PontoCaoWeb.UserJSON do
       bio: user.bio,
       avatar: user.avatar,
       website: user.website,
-      social_links: user.social_links
+      social_links: user.social_links,
+      phone: user.phone
     }
   end
 end

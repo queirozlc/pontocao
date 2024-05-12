@@ -8,11 +8,13 @@ defmodule PontoCao.Repo.Migrations.CreateUsers do
       add :bio, :text, null: false
       add :avatar, :string
       add :website, :string
+      add :phone, :string, null: false
       add :social_links, {:array, :string}, null: false, default: []
 
       timestamps(type: :utc_datetime)
     end
 
     create unique_index(:users, [:email])
+    create unique_index(:users, [:phone])
   end
 end

@@ -10,6 +10,7 @@ defmodule PontoCao.Accounts.User do
     field :bio, :string
     field :avatar, :string
     field :website, :string
+    field :phone, :string
     field :social_links, {:array, :string}
 
     timestamps(type: :utc_datetime)
@@ -18,12 +19,36 @@ defmodule PontoCao.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :email, :bio, :avatar, :website, :social_links])
-    |> validate_required([:name, :email, :bio])
+    |> cast(attrs, [:name, :email, :bio, :avatar, :website, :social_links, :phone])
+    |> validate_required([:name, :email, :bio, :phone])
     |> unique_constraint(:email)
+    |> unique_constraint(:phone)
     |> validate_email(:email, checks: [:check_mx_record])
     |> validate_url(:website, checks: [:path, :valid_host])
     |> validate_social_links
+    |> validate_phone_number(attrs["country"])
+  end
+
+  defp validate_phone_number(changeset, country) do
+    with {:ok, phone} <- ExPhoneNumber.parse(get_field(changeset, :phone), country) do
+      is_valid_phone_number?(changeset, phone)
+    else
+      {:error, reason} -> add_error(changeset, :phone, reason)
+    end
+  end
+
+  defp is_valid_phone_number?(changeset, %ExPhoneNumber.Model.PhoneNumber{} = phone) do
+    case ExPhoneNumber.is_valid_number?(phone) do
+      true ->
+        put_change(
+          changeset,
+          :phone,
+          ExPhoneNumber.format(phone, :e164)
+        )
+
+      false ->
+        add_error(changeset, :phone, "is invalid")
+    end
   end
 
   defp validate_social_links(changeset) do
