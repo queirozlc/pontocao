@@ -14,7 +14,8 @@ defmodule PontoCao.AccountsTest do
       bio: nil,
       avatar: nil,
       website: nil,
-      social_links: nil
+      social_links: nil,
+      phone: nil
     }
 
     test "list_users/0 returns all users" do
@@ -30,20 +31,22 @@ defmodule PontoCao.AccountsTest do
     test "create_user/1 with valid data creates a user" do
       valid_attrs = %{
         name: "some name",
-        email: "some email",
+        email: "email@email.com",
         bio: "some bio",
         avatar: "some avatar",
-        website: "some website",
-        social_links: ["option1", "option2"]
+        website: "https://google.com/",
+        social_links: ["https://github.com/"],
+        phone: "+5527992032080"
       }
 
       assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)
       assert user.name == "some name"
-      assert user.email == "some email"
+      assert user.email == "email@email.com"
       assert user.bio == "some bio"
       assert user.avatar == "some avatar"
-      assert user.website == "some website"
-      assert user.social_links == ["option1", "option2"]
+      assert user.website == "https://google.com/"
+      assert user.social_links == ["https://github.com/"]
+      assert user.phone == "+5527992032080"
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -55,20 +58,20 @@ defmodule PontoCao.AccountsTest do
 
       update_attrs = %{
         name: "some updated name",
-        email: "some updated email",
+        email: "someupdatedemail@email.com",
         bio: "some updated bio",
         avatar: "some updated avatar",
-        website: "some updated website",
-        social_links: ["option1"]
+        website: "https://google.com/",
+        social_links: ["https://linkedin.com/"]
       }
 
       assert {:ok, %User{} = user} = Accounts.update_user(user, update_attrs)
       assert user.name == "some updated name"
-      assert user.email == "some updated email"
+      assert user.email == "someupdatedemail@email.com"
       assert user.bio == "some updated bio"
       assert user.avatar == "some updated avatar"
-      assert user.website == "some updated website"
-      assert user.social_links == ["option1"]
+      assert user.website == "https://google.com/"
+      assert user.social_links == ["https://linkedin.com/"]
     end
 
     test "update_user/2 with invalid data returns error changeset" do

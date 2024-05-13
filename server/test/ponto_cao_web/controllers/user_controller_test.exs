@@ -11,7 +11,8 @@ defmodule PontoCaoWeb.UserControllerTest do
     bio: "some bio",
     avatar: "some avatar",
     website: "https://github.com/",
-    social_links: ["https://linkedin.com/"]
+    social_links: ["https://linkedin.com/"],
+    phone: "+5527992032080"
   }
   @update_attrs %{
     name: "some updated name",
