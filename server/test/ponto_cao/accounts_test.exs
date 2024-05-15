@@ -15,7 +15,8 @@ defmodule PontoCao.AccountsTest do
       avatar: nil,
       website: nil,
       social_links: nil,
-      phone: nil
+      phone: nil,
+      roles: nil
     }
 
     test "list_users/0 returns all users" do
@@ -36,7 +37,8 @@ defmodule PontoCao.AccountsTest do
         avatar: "some avatar",
         website: "https://google.com/",
         social_links: ["https://github.com/"],
-        phone: "+5527992032080"
+        phone: "+5527992032080",
+        roles: ["ADOPTER"]
       }
 
       assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)
@@ -47,6 +49,7 @@ defmodule PontoCao.AccountsTest do
       assert user.website == "https://google.com/"
       assert user.social_links == ["https://github.com/"]
       assert user.phone == "+5527992032080"
+      assert user.roles == [:ADOPTER]
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -72,6 +75,7 @@ defmodule PontoCao.AccountsTest do
       assert user.avatar == "some updated avatar"
       assert user.website == "https://google.com/"
       assert user.social_links == ["https://linkedin.com/"]
+      assert user.roles == [:ADOPTER]
     end
 
     test "update_user/2 with invalid data returns error changeset" do

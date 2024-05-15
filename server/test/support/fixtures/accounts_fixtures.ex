@@ -22,7 +22,8 @@ defmodule PontoCao.AccountsFixtures do
         name: "some name",
         social_links: ["https://linkedin.com/", "https://github.com/"],
         website: "https://google.com/",
-        phone: "+5527992032080"
+        phone: "+5527992032080",
+        roles: ["ADOPTER"]
       })
       |> PontoCao.Accounts.create_user()
 

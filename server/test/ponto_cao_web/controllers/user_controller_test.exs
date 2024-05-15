@@ -12,7 +12,8 @@ defmodule PontoCaoWeb.UserControllerTest do
     avatar: "some avatar",
     website: "https://github.com/",
     social_links: ["https://linkedin.com/"],
-    phone: "+5527992032080"
+    phone: "+5527992032080",
+    roles: ["ADOPTER"]
   }
   @update_attrs %{
     name: "some updated name",
@@ -20,7 +21,8 @@ defmodule PontoCaoWeb.UserControllerTest do
     bio: "some updated bio",
     avatar: "some updated avatar",
     website: "https://github.com/",
-    social_links: ["https://google.com"]
+    social_links: ["https://google.com"],
+    roles: ["ADOPTER", "DONOR"]
   }
   @invalid_attrs %{
     name: nil,
@@ -28,7 +30,8 @@ defmodule PontoCaoWeb.UserControllerTest do
     bio: nil,
     avatar: nil,
     website: nil,
-    social_links: nil
+    social_links: nil,
+    roles: nil
   }
 
   setup %{conn: conn} do
@@ -47,6 +50,24 @@ defmodule PontoCaoWeb.UserControllerTest do
       conn = post(conn, ~p"/api/users", user: @create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
+      conn = get(conn, ~p"/api/users/#{id}")
+
+      assert %{
+               "id" => ^id,
+               "avatar" => "some avatar",
+               "bio" => "some bio",
+               "email" => "some.email@email.com",
+               "name" => "some name",
+               "social_links" => ["https://linkedin.com/"],
+               "website" => "https://github.com/"
+             } = json_response(conn, 200)["data"]
+    end
+
+    test "creates user with two roles", %{conn: conn} do
+      conn =
+        post(conn, ~p"/api/users", user: Map.put(@create_attrs, :roles, ["ADOPTER", "DONOR"]))
+
+      assert %{"id" => id} = json_response(conn, 201)["data"]
       conn = get(conn, ~p"/api/users/#{id}")
 
       assert %{

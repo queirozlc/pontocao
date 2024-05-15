@@ -12,6 +12,7 @@ defmodule PontoCao.Accounts.User do
     field :website, :string
     field :phone, :string
     field :social_links, {:array, :string}
+    field :roles, {:array, Ecto.Enum}, values: [:ADOPTER, :DONOR]
 
     timestamps(type: :utc_datetime)
   end
@@ -19,12 +20,13 @@ defmodule PontoCao.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :email, :bio, :avatar, :website, :social_links, :phone])
-    |> validate_required([:name, :email, :bio, :phone])
+    |> cast(attrs, [:name, :email, :bio, :avatar, :website, :social_links, :phone, :roles])
+    |> validate_required([:name, :email, :bio, :phone, :roles])
     |> unique_constraint(:email)
     |> unique_constraint(:phone)
     |> validate_email(:email, checks: [:check_mx_record])
     |> validate_url(:website, checks: [:path, :valid_host])
+    |> validate_subset(:roles, [:ADOPTER, :DONOR])
     |> validate_social_links
     |> validate_phone_number(attrs["country"])
   end
