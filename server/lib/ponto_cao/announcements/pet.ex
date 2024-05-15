@@ -12,7 +12,7 @@ defmodule PontoCao.Announcements.Pet do
     field :gender, Ecto.Enum, values: [:MALE, :FEMALE]
     field :breed, :string
     field :species, :string
-    field :spayed, :boolean, default: false
+    field :vaccinated, :boolean, default: false
     field :dewormed, :boolean, default: false
     field :neutered, :boolean, default: false
     field :disability, :boolean, default: false
@@ -34,7 +34,7 @@ defmodule PontoCao.Announcements.Pet do
       :gender,
       :breed,
       :species,
-      :spayed,
+      :vaccinated,
       :dewormed,
       :neutered,
       :disability,
@@ -50,7 +50,7 @@ defmodule PontoCao.Announcements.Pet do
       :age,
       :gender,
       :species,
-      :spayed,
+      :vaccinated,
       :dewormed,
       :neutered,
       :disability,

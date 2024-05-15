@@ -25,7 +25,7 @@ defmodule PontoCaoWeb.PetJSON do
       gender: pet.gender,
       breed: pet.breed,
       species: pet.species,
-      spayed: pet.spayed,
+      vaccinated: pet.vaccinated,
       dewormed: pet.dewormed,
       neutered: pet.neutered,
       disability: pet.disability,

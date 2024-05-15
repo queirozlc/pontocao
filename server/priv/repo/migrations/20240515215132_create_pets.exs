@@ -10,7 +10,7 @@ defmodule PontoCao.Repo.Migrations.CreatePets do
       add :gender, :string, null: false
       add :breed, :string
       add :species, :string, null: false
-      add :spayed, :boolean, default: false, null: false
+      add :vaccinated, :boolean, default: false, null: false
       add :dewormed, :boolean, default: false, null: false
       add :neutered, :boolean, default: false, null: false
       add :disability, :boolean, default: false, null: false
