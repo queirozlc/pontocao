@@ -3,7 +3,7 @@ defmodule PontoCao.Accounts.User do
   import Ecto.Changeset
   import EctoCommons.EmailValidator
   import EctoCommons.URLValidator
-  alias PontoCao.Announcements
+  alias PontoCao.{Commons, Announcements}
 
   schema "users" do
     field :name, :string
@@ -29,7 +29,7 @@ defmodule PontoCao.Accounts.User do
     |> validate_email(:email, checks: [:check_mx_record])
     |> validate_url(:website, checks: [:path, :valid_host])
     |> validate_subset(:roles, [:ADOPTER, :DONOR])
-    |> validate_social_links
+    |> Commons.Validations.validate_urls(:social_links)
     |> validate_phone_number(attrs["country"])
   end
 
@@ -52,38 +52,6 @@ defmodule PontoCao.Accounts.User do
 
       false ->
         add_error(changeset, :phone, "is invalid")
-    end
-  end
-
-  defp validate_social_links(changeset) do
-    case get_field(changeset, :social_links) do
-      nil ->
-        changeset
-
-      links ->
-        Enum.reduce(links, changeset, fn link, changeset ->
-          is_valid_url?(link)
-          |> case do
-            nil -> changeset
-            error -> add_error(changeset, :social_links, error)
-          end
-        end)
-    end
-  end
-
-  defp is_valid_url?(url) do
-    case URI.parse(url) do
-      %URI{scheme: nil} ->
-        "is missing a scheme (e.g. https)"
-
-      %URI{host: nil} ->
-        "is missing a host"
-
-      %URI{host: host} ->
-        case :inet.gethostbyname(Kernel.to_charlist(host)) do
-          {:ok, _} -> nil
-          {:error, _} -> "invalid host"
-        end
     end
   end
 end
