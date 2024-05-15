@@ -3,6 +3,7 @@ defmodule PontoCao.Accounts.User do
   import Ecto.Changeset
   import EctoCommons.EmailValidator
   import EctoCommons.URLValidator
+  alias PontoCao.Announcements
 
   schema "users" do
     field :name, :string
@@ -13,6 +14,7 @@ defmodule PontoCao.Accounts.User do
     field :phone, :string
     field :social_links, {:array, :string}
     field :roles, {:array, Ecto.Enum}, values: [:ADOPTER, :DONOR]
+    has_many :pets, Announcements.Pet, foreign_key: :owner_id
 
     timestamps(type: :utc_datetime)
   end
