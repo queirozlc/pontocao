@@ -2,6 +2,7 @@ defmodule PontoCaoWeb.PetControllerTest do
   use PontoCaoWeb.ConnCase
 
   import PontoCao.AnnouncementsFixtures
+  import PontoCao.AccountsFixtures
 
   alias PontoCao.Announcements.Pet
 
@@ -9,12 +10,10 @@ defmodule PontoCaoWeb.PetControllerTest do
     name: "some name",
     size: "120.5",
     bio: "some bio",
-    photos: ["option1", "option2"],
+    photos: ["https://www.example.com/image.jpg", "https://www.example.com/image2.jpg"],
     age: 42,
-    gender: :male,
-    breed: "some breed",
-    species: "some species",
-    spayed: true,
+    gender: :MALE,
+    species: :DOG,
     dewormed: true,
     neutered: true,
     disability: true,
@@ -25,19 +24,34 @@ defmodule PontoCaoWeb.PetControllerTest do
     name: "some updated name",
     size: "456.7",
     bio: "some updated bio",
-    photos: ["option1"],
+    photos: [
+      "https://www.example.com/image_updated.jpg",
+      "https://www.example.com/image2_updated.jpg"
+    ],
     age: 43,
-    gender: :female,
-    breed: "some updated breed",
-    species: "some updated species",
-    spayed: false,
+    gender: :FEMALE,
+    species: :CAT,
     dewormed: false,
     neutered: false,
     disability: false,
     pedigree: false,
     weight: "456.7"
   }
-  @invalid_attrs %{name: nil, size: nil, bio: nil, photos: nil, age: nil, gender: nil, breed: nil, species: nil, spayed: nil, dewormed: nil, neutered: nil, disability: nil, pedigree: nil, weight: nil}
+  @invalid_attrs %{
+    name: nil,
+    size: nil,
+    bio: nil,
+    photos: nil,
+    age: nil,
+    gender: nil,
+    breed: nil,
+    species: nil,
+    dewormed: nil,
+    neutered: nil,
+    disability: nil,
+    pedigree: nil,
+    weight: nil
+  }
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
@@ -52,7 +66,10 @@ defmodule PontoCaoWeb.PetControllerTest do
 
   describe "create pet" do
     test "renders pet when data is valid", %{conn: conn} do
-      conn = post(conn, ~p"/api/pets", pet: @create_attrs)
+      user = user_fixture()
+      breed = breed_fixture()
+      valid_params = @create_attrs |> Map.put(:owner_id, user.id) |> Map.put(:breed_id, breed.id)
+      conn = post(conn, ~p"/api/pets", pet: valid_params)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get(conn, ~p"/api/pets/#{id}")
@@ -61,17 +78,18 @@ defmodule PontoCaoWeb.PetControllerTest do
                "id" => ^id,
                "age" => 42,
                "bio" => "some bio",
-               "breed" => "some breed",
                "dewormed" => true,
                "disability" => true,
-               "gender" => "male",
+               "gender" => "MALE",
                "name" => "some name",
                "neutered" => true,
                "pedigree" => true,
-               "photos" => ["option1", "option2"],
+               "photos" => [
+                 "https://www.example.com/image.jpg",
+                 "https://www.example.com/image2.jpg"
+               ],
                "size" => "120.5",
-               "spayed" => true,
-               "species" => "some species",
+               "species" => "DOG",
                "weight" => "120.5"
              } = json_response(conn, 200)["data"]
     end
@@ -95,19 +113,22 @@ defmodule PontoCaoWeb.PetControllerTest do
                "id" => ^id,
                "age" => 43,
                "bio" => "some updated bio",
-               "breed" => "some updated breed",
                "dewormed" => false,
                "disability" => false,
-               "gender" => "female",
+               "gender" => "FEMALE",
                "name" => "some updated name",
                "neutered" => false,
                "pedigree" => false,
-               "photos" => ["option1"],
+               "photos" => [
+                 "https://www.example.com/image_updated.jpg",
+                 "https://www.example.com/image2_updated.jpg"
+               ],
                "size" => "456.7",
-               "spayed" => false,
-               "species" => "some updated species",
-               "weight" => "456.7"
-             } = json_response(conn, 200)["data"]
+               "species" => "CAT",
+               "weight" => "456.7",
+               "vaccinated" => false
+             } =
+               json_response(conn, 200)["data"]
     end
 
     test "renders errors when data is invalid", %{conn: conn, pet: pet} do

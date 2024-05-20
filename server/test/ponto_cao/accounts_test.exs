@@ -38,7 +38,7 @@ defmodule PontoCao.AccountsTest do
         website: "https://google.com/",
         social_links: ["https://github.com/"],
         phone: "+5527992032080",
-        roles: ["ADOPTER"]
+        roles: [:ADOPTER]
       }
 
       assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)

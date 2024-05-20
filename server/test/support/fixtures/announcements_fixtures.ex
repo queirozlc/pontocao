@@ -1,4 +1,6 @@
 defmodule PontoCao.AnnouncementsFixtures do
+  import PontoCao.AccountsFixtures
+
   @moduledoc """
   This module defines test helpers for creating
   entities via the `PontoCao.Announcements` context.
@@ -8,23 +10,30 @@ defmodule PontoCao.AnnouncementsFixtures do
   Generate a pet.
   """
   def pet_fixture(attrs \\ %{}) do
+    breed = breed_fixture()
+    user = user_fixture()
+
     {:ok, pet} =
       attrs
       |> Enum.into(%{
-        age: 42,
-        bio: "some bio",
-        breed: "some breed",
-        dewormed: true,
-        disability: true,
-        gender: :MALE,
         name: "some name",
+        bio: "some bio",
+        age: 42,
+        dewormed: true,
+        disability: false,
+        gender: :MALE,
         neutered: true,
         pedigree: true,
-        photos: ["option1", "option2"],
+        photos: [
+          "https://imgur.com/",
+          "https://imgur.com/"
+        ],
         size: "120.5",
         spayed: true,
-        species: "some species",
-        weight: "120.5"
+        species: :DOG,
+        weight: "120.5",
+        breed_id: breed.id,
+        owner_id: user.id
       })
       |> PontoCao.Announcements.create_pet()
 
