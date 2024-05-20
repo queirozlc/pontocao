@@ -30,4 +30,16 @@ defmodule PontoCao.AnnouncementsFixtures do
 
     pet
   end
+
+  def breed_fixture(attrs \\ %{}) do
+    {:ok, breed} =
+      attrs
+      |> Enum.into(%{
+        name: "some name",
+        temperaments: ["friendly", "loving"]
+      })
+      |> PontoCao.Announcements.create_breed()
+
+    breed
+  end
 end

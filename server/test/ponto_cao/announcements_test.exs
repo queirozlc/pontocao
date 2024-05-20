@@ -82,4 +82,41 @@ defmodule PontoCao.AnnouncementsTest do
       assert %Ecto.Changeset{} = Announcements.change_pet(pet)
     end
   end
+
+  describe "breeds" do
+    test "create_breed/2 with valid data" do
+      valid_attrs = %{
+        name: "Labrador",
+        temperaments: ["outgoing", "even-tempered", "gentle", "agile", "kind", "intelligent"]
+      }
+
+      assert {:ok, %PontoCao.Announcements.Breed{} = breed} =
+               Announcements.create_breed(valid_attrs)
+
+      assert breed.name == "Labrador"
+
+      assert breed.temperaments == [
+               "outgoing",
+               "even-tempered",
+               "gentle",
+               "agile",
+               "kind",
+               "intelligent"
+             ]
+    end
+
+    test "create_breed/2 with invalid data" do
+      invalid_attrs = %{
+        name: nil,
+        temperaments: nil
+      }
+
+      assert {:error, %Ecto.Changeset{} = error} = Announcements.create_breed(invalid_attrs)
+
+      assert error.errors == [
+               name: {"can't be blank", [validation: :required]},
+               temperaments: {"can't be blank", [validation: :required]}
+             ]
+    end
+  end
 end

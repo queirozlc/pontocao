@@ -4,9 +4,8 @@ defmodule PontoCao.Announcements do
   """
 
   import Ecto.Query, warn: false
+  alias PontoCao.Announcements.{Breed, Pet}
   alias PontoCao.Repo
-
-  alias PontoCao.Announcements.Pet
 
   @doc """
   Returns the list of pets.
@@ -100,5 +99,20 @@ defmodule PontoCao.Announcements do
   """
   def change_pet(%Pet{} = pet, attrs \\ %{}) do
     Pet.changeset(pet, attrs)
+  end
+
+  @doc """
+  Creates a breed.
+
+  ## Examples
+    iex> create_breed(%{field: value})
+            {:ok, %Breed{}}
+    iex> create_breed(%{field: bad_value})
+            {:error, %Ecto.Changeset{}}
+  """
+  def create_breed(attrs \\ %{}) do
+    %Breed{}
+    |> Breed.changeset(attrs)
+    |> Repo.insert()
   end
 end
