@@ -23,7 +23,6 @@ defmodule PontoCaoWeb.PetJSON do
       photos: pet.photos,
       age: pet.age,
       gender: pet.gender,
-      breed: pet.breed,
       species: pet.species,
       vaccinated: pet.vaccinated,
       dewormed: pet.dewormed,
