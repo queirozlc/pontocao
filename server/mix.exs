@@ -46,7 +46,9 @@ defmodule PontoCao.MixProject do
       {:bandit, "~> 1.2"},
       {:ex_phone_number, "~> 0.4.4"},
       {:ecto_commons, "~> 0.3.4"},
-      {:burnex, "~> 3.1.0"}
+      {:burnex, "~> 3.1.0"},
+      {:tz, "~> 0.3.0"},
+      {:tz_datetime, "~> 0.1.2"}
     ]
   end
 
