@@ -15,6 +15,7 @@ defmodule PontoCao.Accounts.User do
     field :social_links, {:array, :string}
     field :roles, {:array, Ecto.Enum}, values: [:ADOPTER, :DONOR]
     has_many :pets, Announcements.Pet, foreign_key: :owner_id
+    has_many :events, Announcements.Event, foreign_key: :owner_id
 
     timestamps(type: :utc_datetime)
   end
@@ -22,7 +23,16 @@ defmodule PontoCao.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :email, :bio, :avatar, :website, :social_links, :phone, :roles])
+    |> cast(attrs, [
+      :name,
+      :email,
+      :bio,
+      :avatar,
+      :website,
+      :social_links,
+      :phone,
+      :roles
+    ])
     |> validate_required([:name, :email, :bio, :phone, :roles])
     |> unique_constraint(:email)
     |> unique_constraint(:phone)

@@ -170,4 +170,119 @@ defmodule PontoCao.AnnouncementsTest do
              ]
     end
   end
+
+  describe "events" do
+    alias PontoCao.Announcements.Event
+
+    import PontoCao.AnnouncementsFixtures
+
+    @example_url "https://example.com/"
+
+    @invalid_attrs %{
+      title: nil,
+      description: nil,
+      latitude: nil,
+      longitude: nil,
+      photos: nil,
+      frequency: nil,
+      owner_id: nil,
+      timezone: nil,
+      input_starts_at: nil,
+      input_ends_at: nil
+    }
+
+    test "list_events/0 returns all events" do
+      event = event_fixture()
+
+      # cannot just assert with [event] because input_starts_at and input_ends_at are virtual fields
+      # and they are not present in the event struct
+      # so we have to assert with the event_fixture() function
+      stored_event =
+        Map.put(event, :input_starts_at, nil)
+        |> Map.put(:input_ends_at, nil)
+
+      assert Announcements.list_events() == [stored_event]
+    end
+
+    test "get_event!/1 returns the event with given id" do
+      event = event_fixture() |> Map.put(:input_starts_at, nil) |> Map.put(:input_ends_at, nil)
+      assert Announcements.get_event!(event.id) == event
+    end
+
+    test "create_event/1 with valid data creates a event" do
+      owner = user_fixture()
+
+      valid_attrs = %{
+        title: "some title",
+        description: "some description of some cool event",
+        latitude: "90",
+        longitude: "120.5",
+        frequency: 127,
+        photos: [@example_url, @example_url],
+        owner_id: owner.id,
+        input_starts_at: NaiveDateTime.utc_now() |> NaiveDateTime.add(1, :day),
+        input_ends_at: NaiveDateTime.utc_now() |> NaiveDateTime.add(5, :day),
+        timezone: "Etc/UTC"
+      }
+
+      assert {:ok, %Event{} = event} = Announcements.create_event(valid_attrs)
+      assert event.title == "some title"
+      assert event.description == "some description of some cool event"
+      assert event.latitude == Decimal.new("90")
+      assert event.longitude == Decimal.new("120.5")
+      assert event.photos == ["https://example.com/", "https://example.com/"]
+      assert event.owner_id == owner.id
+      assert event.timezone == "Etc/UTC"
+      assert event.original_offset == 0
+      assert event.frequency == 127
+      # Check if the event starts_at and ends_at regardless seconds are the same
+      assert DateTime.truncate(event.starts_at, :second) ==
+               DateTime.truncate(DateTime.utc_now() |> DateTime.add(1, :day), :second)
+
+      assert DateTime.truncate(event.ends_at, :second) ==
+               DateTime.truncate(DateTime.utc_now() |> DateTime.add(5, :day), :second)
+    end
+
+    test "create_event/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Announcements.create_event(@invalid_attrs)
+    end
+
+    test "update_event/2 with valid data updates the event" do
+      event = event_fixture()
+
+      update_attrs = %{
+        title: "some updated title",
+        description: "some updated description",
+        latitude: "-90",
+        longitude: "-180",
+        photos: ["https://imgur.com/", "https://imgur.com/"]
+      }
+
+      assert {:ok, %Event{} = event} = Announcements.update_event(event, update_attrs)
+      assert event.title == "some updated title"
+      assert event.description == "some updated description"
+      assert event.latitude == Decimal.new("-90")
+      assert event.longitude == Decimal.new("-180")
+      assert event.photos == ["https://imgur.com/", "https://imgur.com/"]
+    end
+
+    test "update_event/2 with invalid data returns error changeset" do
+      event = event_fixture()
+      assert {:error, %Ecto.Changeset{}} = Announcements.update_event(event, @invalid_attrs)
+
+      assert event |> Map.put(:input_starts_at, nil) |> Map.put(:input_ends_at, nil) ==
+               Announcements.get_event!(event.id)
+    end
+
+    test "delete_event/1 deletes the event" do
+      event = event_fixture()
+      assert {:ok, %Event{}} = Announcements.delete_event(event)
+      assert_raise Ecto.NoResultsError, fn -> Announcements.get_event!(event.id) end
+    end
+
+    test "change_event/1 returns a event changeset" do
+      event = event_fixture()
+      assert %Ecto.Changeset{} = Announcements.change_event(event)
+    end
+  end
 end
