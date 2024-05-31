@@ -136,32 +136,45 @@ defmodule PontoCao.Announcements.Event do
     ends_at = get_field(changeset, :input_ends_at)
     frequency = get_field(changeset, :frequency)
 
-    case frequency do
-      0 ->
-        event_is_not_repeated(changeset, starts_at, ends_at)
+    case {starts_at, ends_at, frequency} do
+      {nil, _, _} ->
+        changeset
 
-      _ ->
-        event_should_be_repeated(changeset, starts_at, ends_at)
+      {_, nil, _} ->
+        changeset
+
+      {_, _, 0} ->
+        changeset
+
+      {_, _, _} ->
+        validate_frequency(changeset, starts_at, ends_at, frequency)
     end
   end
 
-  defp event_is_not_repeated(changeset, starts_at, ends_at) when starts_at == ends_at do
-    changeset
+  defp validate_frequency(changeset, starts_at, ends_at, frequency) do
+    # If the event is not repeated, the frequency must be 0
+    # If the event is repeated, the frequency must be greater than 0
+    case Date.diff(starts_at, ends_at) do
+      0 ->
+        event_not_repeated(changeset, frequency)
+
+      _ ->
+        event_repeated(changeset, frequency)
+    end
   end
 
-  defp event_is_not_repeated(changeset, _starts_at, _ends_at) do
-    add_error(changeset, :frequency, "should be 0 if starts_at and ends_at are different")
-  end
+  defp event_not_repeated(changeset, 0), do: changeset
 
-  defp event_should_be_repeated(changeset, starts_at, ends_at) when starts_at != ends_at do
-    changeset
-  end
+  defp event_not_repeated(changeset, _),
+    do: add_error(changeset, :frequency, "must be 0 when the event is not repeated")
 
-  defp event_should_be_repeated(changeset, _starts_at, _ends_at) do
-    add_error(
-      changeset,
-      :frequency,
-      "should be different from 0 if starts_at and ends_at are the same"
-    )
-  end
+  defp event_repeated(changeset, 0),
+    do:
+      add_error(
+        changeset,
+        :frequency,
+        "must be greater than 0 if the starts_at and ends_at are different days"
+      )
+
+  defp event_repeated(changeset, _), do: changeset
 end

@@ -247,6 +247,70 @@ defmodule PontoCao.AnnouncementsTest do
       assert {:error, %Ecto.Changeset{}} = Announcements.create_event(@invalid_attrs)
     end
 
+    test "create_event/1 with starts_at in the past returns error changeset" do
+      owner = user_fixture()
+
+      invalid_attrs = %{
+        title: "some title",
+        description: "some description of some cool event",
+        latitude: "90",
+        longitude: "120.5",
+        frequency: 127,
+        photos: [@example_url, @example_url],
+        owner_id: owner.id,
+        input_starts_at: ~N[2024-05-01 00:00:00],
+        input_ends_at: NaiveDateTime.utc_now() |> NaiveDateTime.add(5, :day),
+        timezone: "Etc/UTC"
+      }
+
+      assert {:error, %Ecto.Changeset{}} = Announcements.create_event(invalid_attrs)
+    end
+
+    test "create_event/1 with ends_at before starts_at returns error changeset" do
+      owner = user_fixture()
+
+      invalid_attrs = %{
+        title: "some title",
+        description: "some description of some cool event",
+        latitude: "90",
+        longitude: "120.5",
+        frequency: 127,
+        photos: [@example_url, @example_url],
+        owner_id: owner.id,
+        input_starts_at: NaiveDateTime.utc_now() |> NaiveDateTime.add(5, :day),
+        input_ends_at: NaiveDateTime.utc_now() |> NaiveDateTime.add(1, :day),
+        timezone: "Etc/UTC"
+      }
+
+      assert {:error, %Ecto.Changeset{} = changeset} = Announcements.create_event(invalid_attrs)
+      assert changeset.errors == [input_ends_at: {"must be after starts_at", []}]
+      assert changeset.valid? == false
+    end
+
+    test "create_event/1 with frequency greater than 0 if is a one day event returns error changeset" do
+      owner = user_fixture()
+
+      invalid_attrs = %{
+        title: "some title",
+        description: "some description of some cool event",
+        latitude: "90",
+        longitude: "120.5",
+        frequency: 120,
+        photos: [@example_url, @example_url],
+        owner_id: owner.id,
+        input_starts_at: NaiveDateTime.utc_now() |> NaiveDateTime.add(5, :day),
+        input_ends_at:
+          NaiveDateTime.utc_now() |> NaiveDateTime.add(5, :day) |> NaiveDateTime.add(1, :hour),
+        timezone: "Etc/UTC"
+      }
+
+      assert {:error, %Ecto.Changeset{} = changeset} = Announcements.create_event(invalid_attrs)
+      assert changeset.valid? == false
+    end
+
+    test "create_event/1 with frequency lower than 0 if event has more than one day of duration" do
+    end
+
     test "update_event/2 with valid data updates the event" do
       event = event_fixture()
 
