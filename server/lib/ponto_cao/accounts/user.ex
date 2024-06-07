@@ -3,7 +3,7 @@ defmodule PontoCao.Accounts.User do
   import Ecto.Changeset
   import EctoCommons.EmailValidator
   import EctoCommons.URLValidator
-  alias PontoCao.{Commons, Announcements}
+  alias PontoCao.{Commons, Announcements, Profile}
 
   schema "users" do
     field :name, :string
@@ -16,6 +16,7 @@ defmodule PontoCao.Accounts.User do
     field :roles, {:array, Ecto.Enum}, values: [:ADOPTER, :DONOR]
     has_many :pets, Announcements.Pet, foreign_key: :owner_id
     has_many :events, Announcements.Event, foreign_key: :owner_id
+    has_many :addresses, Profile.Address, on_delete: :delete_all
 
     timestamps(type: :utc_datetime)
   end
