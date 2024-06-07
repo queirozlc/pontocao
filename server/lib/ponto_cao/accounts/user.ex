@@ -39,7 +39,7 @@ defmodule PontoCao.Accounts.User do
     |> validate_email(:email, checks: [:check_mx_record])
     |> validate_url(:website, checks: [:path, :valid_host])
     |> validate_subset(:roles, [:ADOPTER, :DONOR])
-    |> Commons.Validations.validate_urls(:social_links)
+    |> Commons.Validations.Url.validate_urls(:social_links)
     |> validate_phone_number(attrs["country"])
   end
 

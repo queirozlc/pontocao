@@ -82,7 +82,7 @@ defmodule PontoCao.Announcements.Event do
     |> validate_starts_at_before_ends_at()
     |> validate_frequency
     |> validate_number(:frequency, greater_than_or_equal_to: 0, less_than_or_equal_to: 127)
-    |> Commons.Validations.validate_urls(:photos)
+    |> Commons.Validations.Url.validate_urls(:photos)
     |> TzDatetime.handle_datetime(
       input_datetime: :input_starts_at,
       time_zone: :timezone,

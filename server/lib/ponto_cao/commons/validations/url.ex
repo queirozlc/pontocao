@@ -1,10 +1,14 @@
-defmodule PontoCao.Commons.Validations do
+defmodule PontoCao.Commons.Validations.Url do
   @moduledoc """
     Module with common custom validations for Ponto Cão project.
   """
 
   import Ecto.Changeset
 
+  @doc """
+  Validates a list of URLs. It checks if the URL has a scheme, a host, and if the host is valid.
+  """
+  @spec validate_urls(Ecto.Changeset.t(), atom) :: Ecto.Changeset.t()
   def validate_urls(changeset, field) do
     case get_field(changeset, field) do
       nil ->

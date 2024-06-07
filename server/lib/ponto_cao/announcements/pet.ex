@@ -69,6 +69,6 @@ defmodule PontoCao.Announcements.Pet do
     |> validate_length(:photos, min: 2, max: 5)
     |> validate_number(:size, greater_than: 0)
     |> validate_number(:weight, greater_than: 0)
-    |> Commons.Validations.validate_urls(:photos)
+    |> Commons.Validations.Url.validate_urls(:photos)
   end
 end
