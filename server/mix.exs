@@ -19,7 +19,7 @@ defmodule PontoCao.MixProject do
   def application do
     [
       mod: {PontoCao.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :httpoison]
     ]
   end
 
@@ -48,7 +48,8 @@ defmodule PontoCao.MixProject do
       {:ecto_commons, "~> 0.3.4"},
       {:burnex, "~> 3.1.0"},
       {:tz, "~> 0.3.0"},
-      {:tz_datetime, "~> 0.1.2"}
+      {:tz_datetime, "~> 0.1.2"},
+      {:httpoison, "~> 2.0"}
     ]
   end
 
