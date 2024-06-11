@@ -11,10 +11,6 @@ defmodule PontoCaoWeb.Router do
     resources "/users", UserController, except: [:new, :edit]
     resources "/pets", PetController, except: [:new, :edit]
     resources "/events", EventController, except: [:new, :edit]
-
-    scope "/users" do
-      resources "/addresses", AddressController, except: [:new, :edit]
-    end
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
