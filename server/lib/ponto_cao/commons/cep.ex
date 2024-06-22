@@ -23,9 +23,6 @@ defmodule PontoCao.Commons.Cep do
   or the API is down, it will return an error struct with the message and status code
   """
 
-  @spec find_address(String.t()) ::
-          {:ok, Cep.Address.t()} | {:error, Cep.Error.t()} | {:error, :timeout, Cep.Error.t()}
-
   def find_address(postal_code) do
     case get(@cep_url <> postal_code) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
@@ -71,10 +68,10 @@ defmodule PontoCao.Commons.Cep do
 
   defp validate_address(changeset, field, postal_code) do
     case find_address(postal_code) do
-      {:error, %Cep.Error{status_code: 500}} ->
+      {:error, :timeout, _} ->
         changeset
 
-      {:error, :timeout, _} ->
+      {:error, %Cep.Error{status_code: 500}} ->
         changeset
 
       {:error, %Cep.Error{message: message}} ->
