@@ -34,11 +34,13 @@ defmodule PontoCao.MixProject do
     [
       {:phoenix, "~> 1.7.11"},
       {:phoenix_ecto, "~> 4.4"},
+      {:phoenix_html, "~> 4.0"},
       {:bcrypt_elixir, "~> 3.0"},
       {:ecto_sql, "~> 3.10"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_live_dashboard, "~> 0.8.3"},
       {:swoosh, "~> 1.5"},
+      {:phoenix_swoosh, "~> 1.0"},
       {:finch, "~> 0.13"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
@@ -50,7 +52,9 @@ defmodule PontoCao.MixProject do
       {:burnex, "~> 3.1.0"},
       {:tz, "~> 0.3.0"},
       {:tz_datetime, "~> 0.1.2"},
-      {:httpoison, "~> 2.0"}
+      {:httpoison, "~> 2.0"},
+      {:waffle, "~> 1.1"},
+      {:waffle_ecto, "~> 0.0"}
     ]
   end
 
