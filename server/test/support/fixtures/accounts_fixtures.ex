@@ -25,7 +25,6 @@ defmodule PontoCao.AccountsFixtures do
         phone: "+5527992032080",
         roles: ["ADOPTER"]
       })
-      |> PontoCao.Accounts.create_user()
 
     user
   end
