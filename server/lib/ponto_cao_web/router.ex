@@ -1,8 +1,10 @@
 defmodule PontoCaoWeb.Router do
   use PontoCaoWeb, :router
+  import PontoCaoWeb.UserAuth
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_current_user
   end
 
   scope "/api", PontoCaoWeb do
@@ -11,6 +13,13 @@ defmodule PontoCaoWeb.Router do
     resources "/users", UserController, except: [:new, :edit]
     resources "/pets", PetController, except: [:new, :edit]
     resources "/events", EventController, except: [:new, :edit]
+
+    scope "/auth" do
+      post "/register", AuthController, :register
+      post "/login", AuthController, :login
+      post "/logout", AuthController, :logout
+      post "/confirm", AuthController, :confirm
+    end
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
