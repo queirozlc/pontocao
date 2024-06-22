@@ -42,6 +42,14 @@ config :phoenix, :json_library, Jason
 # Config elixir to use TZ as timezone database
 config :elixir, :time_zone_database, Tz.TimeZoneDatabase
 
+# Waffle configuration, by default it will use the Local adapter but it's recommended to configure 
+# a different adapter at the `config/runtime.exs`.
+config :waffle,
+  storage: Waffle.Storage.Local,
+  # in order to have a different storage directory from url
+  storage_dir_prefix: "priv/static",
+  storage_dir: "images"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
