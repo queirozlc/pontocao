@@ -21,4 +21,26 @@ defmodule PontoCaoWeb.FallbackController do
     |> put_view(html: PontoCaoWeb.ErrorHTML, json: PontoCaoWeb.ErrorJSON)
     |> render(:"404")
   end
+
+  # This clause handles register error when user is already confirmed.
+  def call(conn, {:error, :already_confirmed}) do
+    conn
+    |> put_status(401)
+    |> put_view(PontoCaoWeb.ErrorJSON)
+    |> render(:"401")
+  end
+
+  def call(conn, {:error, :bad_request, reason}) do
+    conn
+    |> put_status(400)
+    |> put_view(PontoCaoWeb.ErrorJSON)
+    |> render(:"400", reason: reason)
+  end
+
+  def call(conn, {:error, :unauthorized, reason}) do
+    conn
+    |> put_status(401)
+    |> put_view(PontoCaoWeb.ErrorJSON)
+    |> render(:"401", reason: reason)
+  end
 end
