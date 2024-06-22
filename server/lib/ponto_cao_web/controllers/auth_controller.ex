@@ -6,7 +6,6 @@ defmodule PontoCaoWeb.AuthController do
 
   action_fallback PontoCaoWeb.FallbackController
 
-  plug :require_guest_user when action in [:register, :login]
 
   def register(conn, %{"user" => user_params}) do
     with {:ok, %Accounts.User{} = user} <- Accounts.register_user(user_params),
