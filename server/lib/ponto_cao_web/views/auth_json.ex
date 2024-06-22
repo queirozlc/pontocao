@@ -19,6 +19,9 @@ defmodule PontoCaoWeb.AuthJSON do
     }
   end
 
+  def render("index.json", %{user: user}),
+    do: render_one(user, __MODULE__, "privileged_user.json", as: :user)
+
   def render("privileged_user.json", %{user: user}) do
     %{
       id: user.id,

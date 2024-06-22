@@ -6,6 +6,9 @@ defmodule PontoCaoWeb.AuthController do
 
   action_fallback PontoCaoWeb.FallbackController
 
+  def index(conn, _) do
+    render(conn, "index.json", user: conn.assigns[:current_user])
+  end
 
   def register(conn, %{"user" => user_params}) do
     with {:ok, %Accounts.User{} = user} <- Accounts.register_user(user_params),
