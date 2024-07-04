@@ -1,4 +1,6 @@
-defmodule PontoCao.AccountsFixtures do
+defmodule PontoCao.UsersFixtures do
+  alias PontoCao.Users.User
+
   @moduledoc """
   This module defines test helpers for creating
   entities via the `PontoCao.Accounts` context.
@@ -9,23 +11,17 @@ defmodule PontoCao.AccountsFixtures do
   """
   def unique_user_email, do: "some.email#{System.unique_integer([:positive])}@email.com"
 
-  @doc """
-  Generate a user.
-  """
   def user_fixture(attrs \\ %{}) do
-    {:ok, user} =
+    attrs =
       attrs
       |> Enum.into(%{
-        avatar: "some avatar",
-        bio: "some bio",
         email: unique_user_email(),
-        name: "some name",
-        social_links: ["https://linkedin.com/", "https://github.com/"],
-        website: "https://google.com/",
-        phone: "+5527992032080",
-        roles: ["ADOPTER"]
+        password: "12345678",
+        password_confirmation: "12345678"
       })
 
-    user
+    %User{}
+    |> User.changeset(attrs)
+    |> PontoCao.Repo.insert!()
   end
 end

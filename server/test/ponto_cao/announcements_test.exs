@@ -2,12 +2,12 @@ defmodule PontoCao.AnnouncementsTest do
   use PontoCao.DataCase
 
   alias PontoCao.Announcements
-  import PontoCao.AccountsFixtures
+  import PontoCao.UsersFixtures
 
   describe "pets" do
     alias PontoCao.Announcements.Pet
     import PontoCao.AnnouncementsFixtures
-    import PontoCao.AccountsFixtures
+    import PontoCao.UsersFixtures
 
     @invalid_attrs %{
       name: nil,

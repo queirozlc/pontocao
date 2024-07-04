@@ -1,6 +1,5 @@
 defmodule PontoCao.AnnouncementsFixtures do
-  import PontoCao.AccountsFixtures
-
+  import PontoCao.UsersFixtures
   @example_url "https://example.com/"
 
   @moduledoc """
