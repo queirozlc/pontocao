@@ -1,30 +1,19 @@
 defmodule PontoCaoWeb.UserJSON do
-  alias PontoCao.Accounts.User
+  alias PontoCao.Users.User
 
   @doc """
-  Renders a list of users.
+  Renders a user into a JSON response.
   """
-  def index(%{users: users}) do
-    %{data: for(user <- users, do: data(user))}
+  def render("index.json", %{data: users}) do
+    users
+    |> Enum.map(&data/1)
   end
 
-  @doc """
-  Renders a single user.
-  """
-  def show(%{user: user}) do
-    %{data: data(user)}
-  end
-
-  defp data(%User{} = user) do
+  def data(%User{} = user) do
     %{
       id: user.id,
-      name: user.name,
       email: user.email,
-      bio: user.bio,
-      avatar: user.avatar,
-      website: user.website,
-      social_links: user.social_links,
-      phone: user.phone
+      roles: user.roles
     }
   end
 end
