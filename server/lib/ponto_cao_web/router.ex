@@ -25,6 +25,8 @@ defmodule PontoCaoWeb.Router do
     resources "/pets", PetController, except: [:new, :edit]
     resources "/events", EventController, except: [:new, :edit]
     resources "/session", SessionController, singleton: true, only: [:delete]
+    get "/users", UserController, :index
+    patch "/users/roles", UserController, :roles
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
