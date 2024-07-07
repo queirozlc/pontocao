@@ -42,7 +42,7 @@ config :phoenix, :json_library, Jason
 # Config elixir to use TZ as timezone database
 config :elixir, :time_zone_database, Tz.TimeZoneDatabase
 
-# Waffle configuration, by default it will use the Local adapter but it's recommended to configure 
+# Waffle configuration, by default it will use the Local adapter but it's recommended to configure
 # a different adapter at the `config/runtime.exs`.
 config :waffle,
   storage: Waffle.Storage.Local,
