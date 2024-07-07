@@ -2,7 +2,7 @@ defmodule PontoCaoWeb.PetControllerTest do
   use PontoCaoWeb.ConnCase
 
   import PontoCao.AnnouncementsFixtures
-  import PontoCao.AccountsFixtures
+  import PontoCao.UsersFixtures
 
   alias PontoCao.Announcements.Pet
 

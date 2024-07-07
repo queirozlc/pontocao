@@ -17,11 +17,13 @@ defmodule PontoCao.UsersFixtures do
       |> Enum.into(%{
         email: unique_user_email(),
         password: "12345678",
-        password_confirmation: "12345678"
+        password_confirmation: "12345678",
+        roles: ["DONOR"]
       })
 
     %User{}
     |> User.changeset(attrs)
+    |> User.role_changeset(attrs)
     |> PontoCao.Repo.insert!()
   end
 end
