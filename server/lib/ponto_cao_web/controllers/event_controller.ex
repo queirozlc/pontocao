@@ -6,6 +6,8 @@ defmodule PontoCaoWeb.EventController do
 
   action_fallback PontoCaoWeb.FallbackController
 
+  plug PontoCaoWeb.Plugs.EnsureRole, :DONOR when action in [:create, :update, :delete]
+
   def index(conn, _params) do
     events = Announcements.list_events()
     render(conn, :index, events: events)
