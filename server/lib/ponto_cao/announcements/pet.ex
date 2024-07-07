@@ -1,8 +1,7 @@
 defmodule PontoCao.Announcements.Pet do
   use Ecto.Schema
   import Ecto.Changeset
-  alias PontoCao.Announcements
-  alias PontoCao.{Accounts, Commons}
+  alias PontoCao.{Users, Commons, Announcements}
 
   schema "pets" do
     field :name, :string
@@ -18,7 +17,7 @@ defmodule PontoCao.Announcements.Pet do
     field :disability, :boolean, default: false
     field :pedigree, :boolean, default: false
     field :weight, :decimal
-    belongs_to :user, Accounts.User, foreign_key: :owner_id
+    belongs_to :user, Users.User, foreign_key: :owner_id
     belongs_to :breed, Announcements.Breed, foreign_key: :breed_id
 
     timestamps(type: :utc_datetime)
