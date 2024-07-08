@@ -48,9 +48,10 @@ defmodule PontoCao.Announcements do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_pet(attrs \\ %{}) do
+  def create_pet(attrs \\ %{}, user_id) do
     %Pet{}
     |> Pet.changeset(attrs)
+    |> Ecto.Changeset.put_change(:owner_id, user_id)
     |> Repo.insert()
   end
 

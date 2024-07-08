@@ -13,7 +13,9 @@ defmodule PontoCaoWeb.PetController do
   end
 
   def create(conn, %{"pet" => pet_params}) do
-    with {:ok, %Pet{} = pet} <- Announcements.create_pet(pet_params) do
+    user_id = Pow.Plug.current_user(conn).id
+
+    with {:ok, %Pet{} = pet} <- Announcements.create_pet(pet_params, user_id) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/pets/#{pet}")

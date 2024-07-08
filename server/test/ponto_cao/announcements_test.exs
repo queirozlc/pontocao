@@ -53,11 +53,10 @@ defmodule PontoCao.AnnouncementsTest do
         disability: true,
         pedigree: true,
         weight: "120.5",
-        owner_id: owner.id,
         breed_id: breed.id
       }
 
-      assert {:ok, %Pet{} = pet} = Announcements.create_pet(valid_attrs)
+      assert {:ok, %Pet{} = pet} = Announcements.create_pet(valid_attrs, owner.id)
       assert pet.name == "some name"
       assert pet.size == Decimal.new("120.5")
       assert pet.bio == "some bio"
@@ -306,9 +305,6 @@ defmodule PontoCao.AnnouncementsTest do
 
       assert {:error, %Ecto.Changeset{} = changeset} = Announcements.create_event(invalid_attrs)
       assert changeset.valid? == false
-    end
-
-    test "create_event/1 with frequency lower than 0 if event has more than one day of duration" do
     end
 
     test "update_event/2 with valid data updates the event" do

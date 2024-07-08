@@ -40,7 +40,6 @@ defmodule PontoCao.Announcements.Pet do
       :pedigree,
       :size,
       :weight,
-      :owner_id,
       :breed_id
     ])
     |> validate_required([
@@ -57,7 +56,6 @@ defmodule PontoCao.Announcements.Pet do
       :pedigree,
       :size,
       :weight,
-      :owner_id,
       :breed_id
     ])
     |> foreign_key_constraint(:owner_id)
