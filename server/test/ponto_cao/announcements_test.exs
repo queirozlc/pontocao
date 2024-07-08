@@ -297,7 +297,7 @@ defmodule PontoCao.AnnouncementsTest do
         photos: [@example_url, @example_url],
         input_starts_at: NaiveDateTime.utc_now() |> NaiveDateTime.add(5, :day),
         input_ends_at:
-          NaiveDateTime.utc_now() |> NaiveDateTime.add(5, :day) |> NaiveDateTime.add(1, :hour),
+          NaiveDateTime.utc_now() |> NaiveDateTime.add(5, :day) |> NaiveDateTime.add(1, :minute),
         timezone: "Etc/UTC"
       }
 

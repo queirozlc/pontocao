@@ -12,7 +12,7 @@ defmodule PontoCao.Users.User do
     field :name, :string
     field :bio, :string
     field :avatar, Avatar.Type
-    field :roles, {:array, Ecto.Enum}, values: ~w(ADOPTER DONOR)a, default: []
+    field :roles, {:array, Ecto.Enum}, values: ~w(ADOPTER DONOR)a, default: [:ADOPTER]
     field :phone, :string
     field :country, :string, virtual: true, default: "BR"
     field :social_links, {:array, :string}, default: []

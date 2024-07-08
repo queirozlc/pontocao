@@ -6,7 +6,7 @@ defmodule PontoCao.Repo.Migrations.CreateUsers do
       add :name, :string
       add :email, :string, null: false
       add :password_hash, :string
-      add :roles, {:array, :string}, default: [], null: false
+      add :roles, {:array, :string}, null: false, default: ["ADOPTER"]
       add :bio, :text
       add :avatar, :string
       add :website, :string
