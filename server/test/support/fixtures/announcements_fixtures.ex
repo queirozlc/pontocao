@@ -1,6 +1,5 @@
 defmodule PontoCao.AnnouncementsFixtures do
-  import PontoCao.AccountsFixtures
-
+  import PontoCao.UsersFixtures
   @example_url "https://example.com/"
 
   @moduledoc """
@@ -34,10 +33,9 @@ defmodule PontoCao.AnnouncementsFixtures do
         spayed: true,
         species: :DOG,
         weight: "120.5",
-        breed_id: breed.id,
-        owner_id: user.id
+        breed_id: breed.id
       })
-      |> PontoCao.Announcements.create_pet()
+      |> PontoCao.Announcements.create_pet(user.id)
 
     pet
   end
@@ -57,7 +55,7 @@ defmodule PontoCao.AnnouncementsFixtures do
   @doc """
   Generate a event.
   """
-  def event_fixture(attrs \\ %{}) do
+  def event_fixture(attrs \\ %{}, user \\ nil) do
     {:ok, event} =
       attrs
       |> Enum.into(%{
@@ -67,7 +65,7 @@ defmodule PontoCao.AnnouncementsFixtures do
         longitude: "120.5",
         photos: [@example_url, @example_url],
         frequency: 127,
-        owner_id: user_fixture().id,
+        owner_id: get_owner_id(user),
         input_starts_at: NaiveDateTime.utc_now() |> NaiveDateTime.add(1, :day),
         input_ends_at: NaiveDateTime.utc_now() |> NaiveDateTime.add(5, :day),
         timezone: "Etc/UTC"
@@ -76,4 +74,7 @@ defmodule PontoCao.AnnouncementsFixtures do
 
     event
   end
+
+  defp get_owner_id(user) when is_nil(user), do: user_fixture().id
+  defp get_owner_id(user), do: user.id
 end

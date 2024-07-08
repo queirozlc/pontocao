@@ -21,7 +21,7 @@ defmodule PontoCao.Announcements.Event do
 
   Bitwise AND follows a thuth table AND rules, so if both bits are 1, the result is 1, otherwise, the result is 0.
   """
-  alias PontoCao.Accounts
+  alias PontoCao.Users
   alias PontoCao.Commons
   use Ecto.Schema
   import Ecto.Changeset
@@ -42,7 +42,7 @@ defmodule PontoCao.Announcements.Event do
     field :starts_at, :utc_datetime
     field :ends_at, :utc_datetime
     field :original_offset, :integer
-    belongs_to :owner, Accounts.User, foreign_key: :owner_id
+    belongs_to :owner, Users.User, foreign_key: :owner_id
 
     timestamps(type: :utc_datetime)
   end

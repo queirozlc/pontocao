@@ -1,37 +1,32 @@
 defmodule PontoCaoWeb.Router do
   use PontoCaoWeb, :router
-  import PontoCaoWeb.UserAuth
-
-  pipeline :api_guest do
-    plug :accepts, ["json"]
-    plug :fetch_current_user
-    plug :require_guest_user
-  end
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug :fetch_current_user
-    plug :ensure_authenticated
+    plug PontoCaoWeb.Auth, otp_app: :ponto_cao
+    plug PontoCaoWeb.ReloadUser
+  end
+
+  pipeline :api_protected do
+    plug Pow.Plug.RequireAuthenticated, error_handler: PontoCaoWeb.Plugs.AuthErrorHandler
   end
 
   scope "/api", PontoCaoWeb do
     pipe_through :api
 
-    post "/auth/logout", AuthController, :logout
-    get "/auth", AuthController, :index
-    resources "/users", UserController, except: [:new, :edit]
-    resources "/pets", PetController, except: [:new, :edit]
-    resources "/events", EventController, except: [:new, :edit]
+    resources "/registration", RegistrationController, singleton: true, only: [:create]
+    resources "/session", SessionController, singleton: true, only: [:create]
+    post "/session/renew", SessionController, :renew
   end
 
   scope "/api", PontoCaoWeb do
-    pipe_through :api_guest
+    pipe_through [:api, :api_protected]
 
-    scope "/auth" do
-      post "/register", AuthController, :register
-      post "/login", AuthController, :login
-      post "/confirm", AuthController, :confirm
-    end
+    resources "/pets", PetController, except: [:new, :edit]
+    resources "/events", EventController, except: [:new, :edit]
+    resources "/session", SessionController, singleton: true, only: [:delete]
+    get "/users", UserController, :index
+    patch "/users/roles", UserController, :roles
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
