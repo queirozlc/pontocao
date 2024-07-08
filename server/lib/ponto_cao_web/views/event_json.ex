@@ -28,8 +28,8 @@ defmodule PontoCaoWeb.EventJSON do
       latitude: event.latitude,
       longitude: event.longitude,
       photos: event.photos,
-      starts_at: starts_at,
-      ends_at: ends_at,
+      starts_at: DateTime.truncate(starts_at, :second),
+      ends_at: DateTime.truncate(ends_at, :microsecond),
       frequency: event.frequency
     }
   end
