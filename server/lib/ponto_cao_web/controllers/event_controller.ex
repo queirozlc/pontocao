@@ -1,8 +1,7 @@
 defmodule PontoCaoWeb.EventController do
   use PontoCaoWeb, :controller
 
-  alias PontoCao.Announcements
-  alias PontoCao.Announcements.Event
+  alias PontoCao.{Announcements, Announcements.Event, Users.User}
 
   action_fallback PontoCaoWeb.FallbackController
 
@@ -14,7 +13,9 @@ defmodule PontoCaoWeb.EventController do
   end
 
   def create(conn, %{"event" => event_params}) do
-    with {:ok, %Event{} = event} <- Announcements.create_event(event_params) do
+    %User{id: owner_id} = Pow.Plug.current_user(conn)
+
+    with {:ok, %Event{} = event} <- Announcements.create_event(event_params, owner_id) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/events/#{event}")

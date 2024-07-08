@@ -57,7 +57,6 @@ defmodule PontoCao.Announcements.Event do
       :longitude,
       :photos,
       :frequency,
-      :owner_id,
       :input_starts_at,
       :input_ends_at,
       :timezone
@@ -68,7 +67,6 @@ defmodule PontoCao.Announcements.Event do
       :longitude,
       :photos,
       :frequency,
-      :owner_id,
       :input_starts_at,
       :input_ends_at,
       :timezone

@@ -65,12 +65,11 @@ defmodule PontoCao.AnnouncementsFixtures do
         longitude: "120.5",
         photos: [@example_url, @example_url],
         frequency: 127,
-        owner_id: get_owner_id(user),
         input_starts_at: NaiveDateTime.utc_now() |> NaiveDateTime.add(1, :day),
         input_ends_at: NaiveDateTime.utc_now() |> NaiveDateTime.add(5, :day),
         timezone: "Etc/UTC"
       })
-      |> PontoCao.Announcements.create_event()
+      |> PontoCao.Announcements.create_event(get_owner_id(user))
 
     event
   end

@@ -41,10 +41,10 @@ defmodule PontoCao.Announcements do
 
   ## Examples
 
-      iex> create_pet(%{field: value})
+      iex> create_pet(%{field: value}, 1)
       {:ok, %Pet{}}
 
-      iex> create_pet(%{field: bad_value})
+      iex> create_pet(%{field: bad_value}, 1)
       {:error, %Ecto.Changeset{}}
 
   """
@@ -153,16 +153,17 @@ defmodule PontoCao.Announcements do
 
   ## Examples
 
-      iex> create_event(%{field: value})
+      iex> create_event(%{field: value}, 1)
       {:ok, %Event{}}
 
-      iex> create_event(%{field: bad_value})
+      iex> create_event(%{field: bad_value}, 1)
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_event(attrs \\ %{}) do
+  def create_event(attrs \\ %{}, owner_id) do
     %Event{}
     |> Event.changeset(attrs)
+    |> Ecto.Changeset.put_change(:owner_id, owner_id)
     |> Repo.insert()
   end
 

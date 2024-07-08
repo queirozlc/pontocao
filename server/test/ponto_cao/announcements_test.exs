@@ -218,13 +218,12 @@ defmodule PontoCao.AnnouncementsTest do
         longitude: "120.5",
         frequency: 127,
         photos: [@example_url, @example_url],
-        owner_id: owner.id,
         input_starts_at: NaiveDateTime.utc_now() |> NaiveDateTime.add(1, :day),
         input_ends_at: NaiveDateTime.utc_now() |> NaiveDateTime.add(5, :day),
         timezone: "Etc/UTC"
       }
 
-      assert {:ok, %Event{} = event} = Announcements.create_event(valid_attrs)
+      assert {:ok, %Event{} = event} = Announcements.create_event(valid_attrs, owner.id)
       assert event.title == "some title"
       assert event.description == "some description of some cool event"
       assert event.latitude == Decimal.new("90")
@@ -256,13 +255,12 @@ defmodule PontoCao.AnnouncementsTest do
         longitude: "120.5",
         frequency: 127,
         photos: [@example_url, @example_url],
-        owner_id: owner.id,
         input_starts_at: ~N[2024-05-01 00:00:00],
         input_ends_at: NaiveDateTime.utc_now() |> NaiveDateTime.add(5, :day),
         timezone: "Etc/UTC"
       }
 
-      assert {:error, %Ecto.Changeset{}} = Announcements.create_event(invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Announcements.create_event(invalid_attrs, owner.id)
     end
 
     test "create_event/1 with ends_at before starts_at returns error changeset" do
@@ -275,13 +273,14 @@ defmodule PontoCao.AnnouncementsTest do
         longitude: "120.5",
         frequency: 127,
         photos: [@example_url, @example_url],
-        owner_id: owner.id,
         input_starts_at: NaiveDateTime.utc_now() |> NaiveDateTime.add(5, :day),
         input_ends_at: NaiveDateTime.utc_now() |> NaiveDateTime.add(1, :day),
         timezone: "Etc/UTC"
       }
 
-      assert {:error, %Ecto.Changeset{} = changeset} = Announcements.create_event(invalid_attrs)
+      assert {:error, %Ecto.Changeset{} = changeset} =
+               Announcements.create_event(invalid_attrs, owner.id)
+
       assert changeset.errors == [input_ends_at: {"must be after starts_at", []}]
       assert changeset.valid? == false
     end
@@ -296,14 +295,15 @@ defmodule PontoCao.AnnouncementsTest do
         longitude: "120.5",
         frequency: 120,
         photos: [@example_url, @example_url],
-        owner_id: owner.id,
         input_starts_at: NaiveDateTime.utc_now() |> NaiveDateTime.add(5, :day),
         input_ends_at:
           NaiveDateTime.utc_now() |> NaiveDateTime.add(5, :day) |> NaiveDateTime.add(1, :hour),
         timezone: "Etc/UTC"
       }
 
-      assert {:error, %Ecto.Changeset{} = changeset} = Announcements.create_event(invalid_attrs)
+      assert {:error, %Ecto.Changeset{} = changeset} =
+               Announcements.create_event(invalid_attrs, owner.id)
+
       assert changeset.valid? == false
     end
 
