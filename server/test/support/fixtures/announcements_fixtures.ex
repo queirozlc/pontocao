@@ -10,9 +10,8 @@ defmodule PontoCao.AnnouncementsFixtures do
   @doc """
   Generate a pet.
   """
-  def pet_fixture(attrs \\ %{}) do
+  def pet_fixture(attrs \\ %{}, user \\ nil) do
     breed = breed_fixture()
-    user = user_fixture()
 
     {:ok, pet} =
       attrs
@@ -35,7 +34,7 @@ defmodule PontoCao.AnnouncementsFixtures do
         weight: "120.5",
         breed_id: breed.id
       })
-      |> PontoCao.Announcements.create_pet(user.id)
+      |> PontoCao.Announcements.create_pet(get_owner_id(user))
 
     pet
   end
