@@ -56,7 +56,7 @@ defmodule PontoCao.AnnouncementsFixtures do
   @doc """
   Generate a event.
   """
-  def event_fixture(attrs \\ %{}) do
+  def event_fixture(attrs \\ %{}, user \\ nil) do
     {:ok, event} =
       attrs
       |> Enum.into(%{
@@ -66,7 +66,7 @@ defmodule PontoCao.AnnouncementsFixtures do
         longitude: "120.5",
         photos: [@example_url, @example_url],
         frequency: 127,
-        owner_id: user_fixture().id,
+        owner_id: user.id || user_fixture().id,
         input_starts_at: NaiveDateTime.utc_now() |> NaiveDateTime.add(1, :day),
         input_ends_at: NaiveDateTime.utc_now() |> NaiveDateTime.add(5, :day),
         timezone: "Etc/UTC"

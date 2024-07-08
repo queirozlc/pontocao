@@ -40,7 +40,13 @@ defmodule PontoCaoWeb.EventControllerTest do
   }
 
   setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+    user = user_fixture()
+
+    authed_conn =
+      put_req_header(conn, "accept", "application/json")
+      |> Pow.Plug.assign_current_user(user, [])
+
+    {:ok, conn: authed_conn, user: user}
   end
 
   describe "index" do
@@ -51,12 +57,14 @@ defmodule PontoCaoWeb.EventControllerTest do
   end
 
   describe "create event" do
-    test "renders event when data is valid", %{conn: conn} do
-      owner = user_fixture()
-      conn = post(conn, ~p"/api/events", event: Map.put(@create_attrs, :owner_id, owner.id))
+    test "renders event when data is valid", %{conn: conn, user: user} do
+      conn = post(conn, ~p"/api/events", event: Map.put(@create_attrs, :owner_id, user.id))
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get(conn, ~p"/api/events/#{id}")
+      conn =
+        conn
+        |> Pow.Plug.assign_current_user(user, [])
+        |> get(~p"/api/events/#{id}")
 
       starts_at = NaiveDateTime.utc_now() |> NaiveDateTime.add(1, :hour)
       ends_at = NaiveDateTime.utc_now() |> NaiveDateTime.add(4, :hour)
@@ -69,8 +77,8 @@ defmodule PontoCaoWeb.EventControllerTest do
                "longitude" => "120.5",
                "photos" => ["https://example.com/", "https://example.com/"],
                "frequency" => 0,
-               "starts_at" => starts_at,
-               "ends_at" => ends_at
+               "starts_at" => ^starts_at,
+               "ends_at" => ^ends_at
              } = json_response(conn, 200)["data"]
     end
 
@@ -83,11 +91,18 @@ defmodule PontoCaoWeb.EventControllerTest do
   describe "update event" do
     setup [:create_event]
 
-    test "renders event when data is valid", %{conn: conn, event: %Event{id: id} = event} do
+    test "renders event when data is valid", %{
+      conn: conn,
+      event: %Event{id: id} = event,
+      user: user
+    } do
       conn = put(conn, ~p"/api/events/#{event}", event: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
-      conn = get(conn, ~p"/api/events/#{id}")
+      conn =
+        conn
+        |> Pow.Plug.assign_current_user(user, [])
+        |> get(~p"/api/events/#{id}")
 
       starts_at_updated = NaiveDateTime.utc_now() |> NaiveDateTime.add(1, :hour)
 
@@ -102,8 +117,8 @@ defmodule PontoCaoWeb.EventControllerTest do
                "longitude" => "-180",
                "photos" => ["https://example.com/", "https://example.com/"],
                "frequency" => 12,
-               "starts_at" => starts_at_updated,
-               "ends_at" => ends_at_updated
+               "starts_at" => ^starts_at_updated,
+               "ends_at" => ^ends_at_updated
              } = json_response(conn, 200)["data"]
     end
 
@@ -116,18 +131,18 @@ defmodule PontoCaoWeb.EventControllerTest do
   describe "delete event" do
     setup [:create_event]
 
-    test "deletes chosen event", %{conn: conn, event: event} do
+    test "deletes chosen event", %{conn: conn, event: event, user: user} do
       conn = delete(conn, ~p"/api/events/#{event}")
       assert response(conn, 204)
 
       assert_error_sent 404, fn ->
-        get(conn, ~p"/api/events/#{event}")
+        get(Pow.Plug.assign_current_user(conn, user, []), ~p"/api/events/#{event}")
       end
     end
   end
 
-  defp create_event(_) do
-    event = event_fixture()
+  defp create_event(context) do
+    event = event_fixture(%{}, context.user)
     %{event: event}
   end
 end
