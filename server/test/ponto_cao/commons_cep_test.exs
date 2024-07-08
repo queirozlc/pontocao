@@ -2,7 +2,6 @@ defmodule PontoCao.CommonsCepTest do
   use ExUnit.Case
 
   alias PontoCao.Commons.Cep
-  alias PontoCao.Profile.Address
 
   describe "find_address/1" do
     test "when the postal code is valid and found" do
