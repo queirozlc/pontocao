@@ -31,7 +31,8 @@ defmodule PontoCaoWeb.PetController do
   def update(conn, %{"id" => id, "pet" => pet_params}) do
     pet = Announcements.get_pet!(id)
 
-    with {:ok, %Pet{} = pet} <- Announcements.update_pet(pet, pet_params) do
+    with {:ok, _conn} <- check_pet_owner(conn, pet),
+         {:ok, %Pet{} = pet} <- Announcements.update_pet(pet, pet_params) do
       render(conn, :show, pet: pet)
     end
   end
@@ -39,8 +40,22 @@ defmodule PontoCaoWeb.PetController do
   def delete(conn, %{"id" => id}) do
     pet = Announcements.get_pet!(id)
 
-    with {:ok, %Pet{}} <- Announcements.delete_pet(pet) do
+    with {:ok, _conn} <- check_pet_owner(conn, pet),
+         {:ok, %Pet{}} <- Announcements.delete_pet(pet) do
       send_resp(conn, :no_content, "")
+    end
+  end
+
+  defp check_pet_owner(conn, pet) do
+    current_user = Pow.Plug.current_user(conn)
+
+    if pet.owner_id == current_user.id do
+      {:ok, conn}
+    else
+      conn
+      |> put_status(:forbidden)
+      |> render(PontoCaoWeb.ErrorJSON, "403.json")
+      |> halt()
     end
   end
 end
