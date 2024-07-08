@@ -3,6 +3,7 @@ defmodule PontoCaoWeb.PetControllerTest do
 
   import PontoCao.AnnouncementsFixtures
   import PontoCao.UsersFixtures
+  import Pow.Plug, only: [assign_current_user: 3]
 
   alias PontoCao.Announcements.Pet
 
@@ -54,7 +55,14 @@ defmodule PontoCaoWeb.PetControllerTest do
   }
 
   setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+    user = user_fixture()
+
+    authed_conn =
+      conn
+      |> put_req_header("accept", "application/json")
+      |> assign_current_user(user, [])
+
+    {:ok, conn: authed_conn, user: user}
   end
 
   describe "index" do
@@ -65,14 +73,16 @@ defmodule PontoCaoWeb.PetControllerTest do
   end
 
   describe "create pet" do
-    test "renders pet when data is valid", %{conn: conn} do
-      user = user_fixture()
+    test "renders pet when data is valid", %{conn: conn, user: user} do
       breed = breed_fixture()
-      valid_params = @create_attrs |> Map.put(:owner_id, user.id) |> Map.put(:breed_id, breed.id)
+      valid_params = @create_attrs |> Map.put(:breed_id, breed.id)
       conn = post(conn, ~p"/api/pets", pet: valid_params)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get(conn, ~p"/api/pets/#{id}")
+      conn =
+        recycle(conn)
+        |> assign_current_user(user, [])
+        |> get(~p"/api/pets/#{id}")
 
       assert %{
                "id" => ^id,
@@ -103,11 +113,14 @@ defmodule PontoCaoWeb.PetControllerTest do
   describe "update pet" do
     setup [:create_pet]
 
-    test "renders pet when data is valid", %{conn: conn, pet: %Pet{id: id} = pet} do
+    test "renders pet when data is valid", %{conn: conn, pet: %Pet{id: id} = pet, user: user} do
       conn = put(conn, ~p"/api/pets/#{pet}", pet: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
-      conn = get(conn, ~p"/api/pets/#{id}")
+      conn =
+        recycle(conn)
+        |> assign_current_user(user, [])
+        |> get(~p"/api/pets/#{id}")
 
       assert %{
                "id" => ^id,
@@ -140,18 +153,19 @@ defmodule PontoCaoWeb.PetControllerTest do
   describe "delete pet" do
     setup [:create_pet]
 
-    test "deletes chosen pet", %{conn: conn, pet: pet} do
+    test "deletes chosen pet", %{conn: conn, pet: pet, user: user} do
       conn = delete(conn, ~p"/api/pets/#{pet}")
       assert response(conn, 204)
 
       assert_error_sent 404, fn ->
+        conn = recycle(conn) |> assign_current_user(user, [])
         get(conn, ~p"/api/pets/#{pet}")
       end
     end
   end
 
-  defp create_pet(_) do
-    pet = pet_fixture()
+  defp create_pet(%{user: user}) do
+    pet = pet_fixture(%{}, user)
     %{pet: pet}
   end
 end
