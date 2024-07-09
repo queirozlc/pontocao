@@ -17,18 +17,24 @@ defmodule PontoCao.Users do
   end
 
   @doc """
-  Sets the user roles with the given attributes.
+  Gets the user by the given id.
   """
-  def set_roles(user, attrs) do
+  def get!(id), do: Repo.get!(User, id)
+
+  @doc """
+  Updates the user with the given attributes.
+  """
+  def update_user(user, attrs) do
     user
+    |> User.profile_changeset(attrs)
     |> User.role_changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Gets the user by the given id.
+  Deletes the user.
   """
-  def get!(id), do: Repo.get!(User, id)
+  def delete_user(user), do: Repo.delete(user)
 
   @doc """
   List all users.
