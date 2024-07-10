@@ -223,7 +223,9 @@ defmodule PontoCao.AnnouncementsTest do
         timezone: "Etc/UTC"
       }
 
-      assert {:ok, %Event{} = event} = Announcements.create_event(valid_attrs, owner.id)
+      assert {:ok, %Event{starts_at: starts_at, ends_at: ends_at} = event} =
+               Announcements.create_event(valid_attrs, owner.id)
+
       assert event.title == "some title"
       assert event.description == "some description of some cool event"
       assert event.latitude == Decimal.new("90")
@@ -233,12 +235,8 @@ defmodule PontoCao.AnnouncementsTest do
       assert event.timezone == "Etc/UTC"
       assert event.original_offset == 0
       assert event.frequency == 127
-      # Check if the event starts_at and ends_at regardless seconds are the same
-      assert DateTime.truncate(event.starts_at, :second) ==
-               DateTime.truncate(DateTime.utc_now() |> DateTime.add(1, :day), :second)
-
-      assert DateTime.truncate(event.ends_at, :second) ==
-               DateTime.truncate(DateTime.utc_now() |> DateTime.add(5, :day), :second)
+      assert event.starts_at == starts_at
+      assert event.ends_at == ends_at
     end
 
     test "create_event/1 with invalid data returns error changeset" do
