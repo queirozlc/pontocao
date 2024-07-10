@@ -22,6 +22,13 @@ defmodule PontoCaoWeb.FallbackController do
     |> render(:"404")
   end
 
+  def call(conn, {:error, :not_allowed}) do
+    conn
+    |> put_status(:forbidden)
+    |> put_view(html: PontoCaoWeb.ErrorHTML, json: PontoCaoWeb.ErrorJSON)
+    |> render(:"403")
+  end
+
   def call(conn, {:error, _conn}) do
     conn
     |> put_status(401)
