@@ -93,6 +93,23 @@ defmodule PontoCao.UsersTest do
     end
   end
 
+  describe "is_admin/1" do
+    test "when the user is an admin" do
+      user = user_fixture(role: :admin)
+      assert Users.is_admin?(user) == true
+    end
+
+    test "when the user is not an admin" do
+      user = user_fixture(role: :donor)
+      assert Users.is_admin?(user) == false
+    end
+  end
+
+  test "list_users/0 lists all users" do
+    user = user_fixture()
+    assert Users.list_users() == [user]
+  end
+
   defp create_user(_context) do
     user = user_fixture()
     {:ok, user: user}

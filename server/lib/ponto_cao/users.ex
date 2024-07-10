@@ -40,4 +40,10 @@ defmodule PontoCao.Users do
   List all users.
   """
   def list_users, do: Repo.all(User)
+
+  @doc """
+  Checks if the user has an admin role.
+  """
+  def is_admin?(%{role: :admin}), do: true
+  def is_admin?(_), do: false
 end
