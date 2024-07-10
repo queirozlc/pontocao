@@ -5,20 +5,11 @@ defmodule PontoCaoWeb.UserJSON do
   Renders a user into a JSON response.
   """
   def render("index.json", %{data: users}) do
-    users
-    |> Enum.map(&data/1)
+    %{data: for(user <- users, do: complete_data(user))}
   end
 
   def render("show.json", %{data: user}) do
-    complete_data(user)
-  end
-
-  defp data(%User{} = user) do
-    %{
-      id: user.id,
-      email: user.email,
-      roles: user.roles
-    }
+    %{data: complete_data(user)}
   end
 
   defp complete_data(%User{} = user) do
@@ -30,7 +21,7 @@ defmodule PontoCaoWeb.UserJSON do
       website: user.website,
       social_links: user.social_links,
       phone: user.phone,
-      roles: user.roles
+      role: user.role
     }
   end
 end
