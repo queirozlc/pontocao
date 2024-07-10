@@ -30,12 +30,7 @@ defmodule PontoCaoWeb.Plugs.EnsureRole do
 
   defp has_role?(nil, _roles), do: false
   defp has_role?(user, roles) when is_list(roles), do: Enum.any?(roles, &has_role?(user, &1))
-  defp has_role?(user, role) when is_atom(role), do: has_role?(user, Atom.to_string(role))
-
-  defp has_role?(%{roles: user_roles}, role) do
-    Enum.map(user_roles, &Atom.to_string/1) |> Enum.member?(role)
-  end
-
+  defp has_role?(%{role: role}, role) when is_atom(role), do: true
   defp has_role?(_user, _role), do: false
 
   defp maybe_halt(true, conn), do: conn

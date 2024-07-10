@@ -5,7 +5,7 @@ defmodule PontoCaoWeb.PetController do
   alias PontoCao.Announcements.Pet
 
   action_fallback PontoCaoWeb.FallbackController
-  plug PontoCaoWeb.Plugs.EnsureRole, [:DONOR] when action in [:create, :update, :delete]
+  plug PontoCaoWeb.Plugs.EnsureRole, :donor when action in [:create, :update, :delete]
 
   def index(conn, _params) do
     pets = Announcements.list_pets()

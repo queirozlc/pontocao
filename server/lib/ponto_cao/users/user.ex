@@ -12,7 +12,7 @@ defmodule PontoCao.Users.User do
     field :name, :string
     field :bio, :string
     field :avatar, Avatar.Type
-    field :roles, {:array, Ecto.Enum}, values: ~w(ADOPTER DONOR ADMIN)a, default: [:ADOPTER]
+    field :role, Ecto.Enum, values: ~w(adopter donor admin)a, default: :adopter
     field :phone, :string
     field :country, :string, virtual: true, default: "BR"
     field :social_links, {:array, :string}, default: []
@@ -37,9 +37,9 @@ defmodule PontoCao.Users.User do
 
   def role_changeset(user, attrs) do
     user
-    |> cast(attrs, [:roles])
-    |> validate_required(:roles)
-    |> validate_subset(:roles, [:ADOPTER, :DONOR, :ADMIN])
+    |> cast(attrs, [:role])
+    |> validate_required(:role)
+    |> validate_inclusion(:role, ~w(adopter donor admin)a)
   end
 
   defp validate_phone_number(changeset) do

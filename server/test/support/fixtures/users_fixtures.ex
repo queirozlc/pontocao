@@ -11,14 +11,16 @@ defmodule PontoCao.UsersFixtures do
   """
   def unique_user_email, do: "some.email#{System.unique_integer([:positive])}@email.com"
 
-  def user_fixture(attrs \\ %{}) do
+  def user_fixture(attrs \\ %{}, opts \\ []) do
+    role = Keyword.get(opts, :role, :donor)
+
     attrs =
       attrs
       |> Enum.into(%{
         email: unique_user_email(),
         password: "12345678",
         password_confirmation: "12345678",
-        roles: ["DONOR"]
+        role: role
       })
 
     %User{}

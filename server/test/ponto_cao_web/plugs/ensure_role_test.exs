@@ -2,9 +2,10 @@ defmodule PontoCaoWeb.Plugs.EnsureRolesTest do
   use PontoCaoWeb.ConnCase, async: true
   alias PontoCaoWeb.Plugs.EnsureRole
 
-  @opts ~w(DONOR)a
-  @user_adopter %{id: 1, roles: [:ADOPTER]}
-  @user_donor %{id: 2, roles: [:DONOR]}
+  @opts ~w(donor)a
+  @user_adopter %{id: 1, role: :adopter}
+  @user_donor %{id: 2, role: :donor}
+  @user_admin %{id: 3, role: :admin}
   @otp_app :ponto_cao
 
   setup do
@@ -36,7 +37,7 @@ defmodule PontoCaoWeb.Plugs.EnsureRolesTest do
   end
 
   test "call/2 with adopter user and multiple roles", %{conn: conn} do
-    opts = EnsureRole.init(~w(ADOPTER DONOR)a)
+    opts = EnsureRole.init(~w(adopter donor admin)a)
 
     conn =
       conn
@@ -58,11 +59,33 @@ defmodule PontoCaoWeb.Plugs.EnsureRolesTest do
   end
 
   test "call/2 with donor user and multiple roles", %{conn: conn} do
-    opts = EnsureRole.init(~w(ADOPTER DONOR)a)
+    opts = EnsureRole.init(~w(adopter donor)a)
 
     conn
     |> Pow.Plug.assign_current_user(@user_donor, otp_app: @otp_app)
     |> EnsureRole.call(opts)
+
+    refute conn.halted
+  end
+
+  test "call/2 with admin user", %{conn: conn} do
+    opts = EnsureRole.init(:admin)
+
+    conn =
+      conn
+      |> Pow.Plug.assign_current_user(@user_admin, otp_app: @otp_app)
+      |> EnsureRole.call(opts)
+
+    refute conn.halted
+  end
+
+  test "call/2 with admin user and multiple roles", %{conn: conn} do
+    opts = EnsureRole.init(~w(adopter donor admin)a)
+
+    conn =
+      conn
+      |> Pow.Plug.assign_current_user(@user_admin, otp_app: @otp_app)
+      |> EnsureRole.call(opts)
 
     refute conn.halted
   end
