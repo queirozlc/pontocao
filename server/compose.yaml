@@ -1,7 +1,7 @@
 services:
   db:
     container_name: pg_database
-    image: postgres:16-alpine
+    image: kartoza/postgis:16-3.4
     ports:
       - "5432:5432"
     environment:
