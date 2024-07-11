@@ -4,7 +4,7 @@ defmodule PontoCao.Repo.Migrations.CreateBreeds do
   def change do
     create table(:breeds) do
       add :name, :string, null: false
-      add :personality, :text
+      add :temperaments, {:array, :string}, default: [], null: false
 
       timestamps(type: :utc_datetime)
     end

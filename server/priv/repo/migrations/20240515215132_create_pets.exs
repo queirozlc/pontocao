@@ -8,7 +8,6 @@ defmodule PontoCao.Repo.Migrations.CreatePets do
       add :photos, {:array, :string}, null: false
       add :age, :integer, null: false
       add :gender, :string, null: false
-      add :breed, :string
       add :species, :string, null: false
       add :vaccinated, :boolean, default: false, null: false
       add :dewormed, :boolean, default: false, null: false
@@ -18,12 +17,20 @@ defmodule PontoCao.Repo.Migrations.CreatePets do
       add :size, :decimal, default: 0.0, null: false
       add :weight, :decimal, default: 0.0, null: false
       add :owner_id, references(:users, on_delete: :delete_all), null: false
+      add :breed_id, references(:breeds, on_delete: :delete_all), null: false
 
       timestamps(type: :utc_datetime)
     end
 
     create index(:pets, [:owner_id])
     create index(:pets, [:species])
-    create index(:pets, [:breed])
+
+    create index(:pets, [
+             :vaccinated,
+             :dewormed,
+             :neutered,
+             :disability,
+             :pedigree
+           ])
   end
 end

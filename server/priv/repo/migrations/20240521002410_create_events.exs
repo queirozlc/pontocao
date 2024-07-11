@@ -4,7 +4,7 @@ defmodule PontoCao.Repo.Migrations.CreateEvents do
   def change do
     create table(:events) do
       add :title, :string, null: false
-      add :description, :text
+      add :description, :text, null: false
       add :latitude, :decimal, null: false
       add :longitude, :decimal, null: false
       add :photos, {:array, :string}, null: false, default: []
