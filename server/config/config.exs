@@ -54,6 +54,9 @@ config :ponto_cao, :pow,
   user: PontoCao.Users.User,
   repo: PontoCao.Repo
 
+config :geo_postgis,
+  json_library: Jason
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

@@ -54,7 +54,8 @@ defmodule PontoCao.MixProject do
       {:httpoison, "~> 2.0"},
       {:waffle, "~> 1.1"},
       {:waffle_ecto, "~> 0.0"},
-      {:pow, "~> 1.0.38"}
+      {:pow, "~> 1.0.38"},
+      {:geo_postgis, "~> 3.7"}
     ]
   end
 
