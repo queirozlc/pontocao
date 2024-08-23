@@ -14,6 +14,18 @@ defmodule PontoCao.Application do
       {Phoenix.PubSub, name: PontoCao.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: PontoCao.Finch},
+      # {
+      #   Meilisearch,
+      #   name: :meilisearch,
+      #   endpoint: Application.get_env(:meilisearch_ex, :endpoint, "http://127.0.0.1:7700"),
+      #   api_key: Application.get_env(:meilisearch_ex, :api_key, ""),
+      #   finch: PontoCao.Finch
+      # },
+      {Meilisearch,
+       name: :meilisearch,
+       endpoint: Application.get_env(:meilisearch_ex, :endpoint, "http://127.0.0.1:7700"),
+       key: Application.get_env(:meilisearch_ex, :api_key, ""),
+       finch: PontoCao.Finch},
       # Start a worker by calling: PontoCao.Worker.start_link(arg)
       # {PontoCao.Worker, arg},
       # Start to serve requests, typically the last entry

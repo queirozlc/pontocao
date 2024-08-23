@@ -8,3 +8,14 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
+  search_engine:
+    container_name: meilisearch
+    image: getmeili/meilisearch:v1.9
+    ports:
+      - "7700:7700"
+    environment:
+      - MEILI_ENV=${MEILISEARCH_ENV}
+      - MEILI_MASTER_KEY=${MEILISEARCH_KEY}
+      - MEILI_NO_ANALYTICS=${MEILISEARCH_NO_ANALYTICS}
+    volumes:
+      - ./meilisearch/data.ms:/data.ms

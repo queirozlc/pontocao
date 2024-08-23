@@ -57,6 +57,10 @@ config :ponto_cao, :pow,
 config :geo_postgis,
   json_library: Jason
 
+config :meilisearch_ex,
+  endpoint: "http://127.0.0.1:7700",
+  api_key: "masterKey"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

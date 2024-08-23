@@ -49,8 +49,12 @@ defmodule PontoCao.MixProject do
       {:ex_phone_number, "~> 0.4.4"},
       {:ecto_commons, "~> 0.3.4"},
       {:burnex, "~> 3.1.0"},
+      {:ecto_hooks, "~> 1.0.1"},
+      {:meilisearch_ex, "~> 1.1.2"},
       {:tz, "~> 0.3.0"},
       {:tz_datetime, "~> 0.1.2"},
+      {:req, "~> 0.5.0"},
+      # Remove http poison in future
       {:httpoison, "~> 2.0"},
       {:waffle, "~> 1.1"},
       {:waffle_ecto, "~> 0.0"},
