@@ -2,6 +2,7 @@ defmodule PontoCao.Announcements.Pet do
   use Ecto.Schema
   import Ecto.Changeset
   alias PontoCao.{Users, Commons, Announcements}
+  use Fuzzie, searchable_fields: [:name, :bio]
 
   schema "pets" do
     field :name, :string

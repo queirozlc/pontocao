@@ -8,6 +8,9 @@ defmodule PontoCao.Users.User do
   use Ecto.Schema
   use Pow.Ecto.Schema
 
+  use Fuzzie,
+    searchable_fields: [:name, :bio]
+
   schema "users" do
     field :name, :string
     field :bio, :string

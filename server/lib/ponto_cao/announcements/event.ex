@@ -26,6 +26,10 @@ defmodule PontoCao.Announcements.Event do
   use Ecto.Schema
   import Ecto.Changeset
 
+  use Fuzzie,
+    searchable_fields: [:title, :description],
+    geo_fields: [:latitude, :longitude]
+
   schema "events" do
     field :description, :string
     field :title, :string
